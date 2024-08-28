@@ -37,13 +37,11 @@ function CustomMapComponent() {
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
-      <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={2}>
-        {markers.map((position, index) => (
-          <Marker key={index} position={position} />
-        ))}
-      </GoogleMap>
-    </LoadScript>
+    <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={2}>
+      {markers.map((position, index) => (
+        <Marker key={index} position={position} />
+      ))}
+    </GoogleMap>
   );
 }
 
