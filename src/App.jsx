@@ -1,27 +1,21 @@
-import React from 'react';
-import './App.css'; // Import your CSS file
-import SearchBar from './components/SearchBar';
-import CategoryTag from './components/CategoryTag';
-import FilterSidebar from './components/FilterSidebar';
-import DataList from './components/DataList';
-import Pagination from './components/Pagination';
+import React from "react";
+import "./App.css"; // Import your CSS file
+import FindABranchTitle from "./components/Title";
+import CustomMapComponent from "./components/CustomMapComponent";
+import DataWithSearch from "./components/DataWithSearch";
 
 function App() {
-
   return (
     <div className="App">
-      <SearchBar /> 
+      <FindABranchTitle />
 
-      <CategoryTag  />
-
-      <div className="content-wrapper"> 
+      <div className="content-wrapper">
         <div className="filter-sidebar">
-          <FilterSidebar />
+          <DataWithSearch />
         </div>
 
-        <div className="data-list">
-          <DataList />
-          <Pagination/>
+        <div className="map">
+          <CustomMapComponent />
         </div>
       </div>
     </div>

@@ -12,184 +12,96 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
+.App {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.content-wrapper {
+  display: flex;
+  flex: 1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.filter-sidebar {
+  flex: 1;
+  max-width: 25%;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
-button:hover {
-  border-color: #646cff;
+
+.map {
+  flex: 3;
+  padding: 10px;
+  box-sizing: border-box;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+}
+
+.description {
+    font-size: 1em;
+    color: #666;
+    margin: 5px 0;
 }
 
 
-/* General Styling */
-.SearchBar{
+.data-with-search {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.search-component {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 20px;
 }
-.SearchBar input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 250px;
+
+.search-component h2 {
+  margin-bottom: 10px;
 }
 
-.CategoryTag button {
-  /* background-color: #f0f0f0; */
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  margin-right: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.CategoryTag button.active { 
-  background-color: #007bff; /* Example active color */
-  color: white;
-}
-.content-wrapper{
-  display:flex;
-  justify-content: space-between;
-}
-.filter-sidebar {
-  width: 200px;
-  margin-right: 20px;
-}
-.FilterSidebar {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 20px 0;
-  text-align: left;
-}
-
-.FilterSidebar h3 {
-  margin-top: 0;
-}
-
-.FilterSidebar label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.DataList ul {
-  list-style: none;
-  padding: 0;
-}
-
-.DataList li {
-  border: 1px solid #ccc;
+.search-input {
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border-radius: 5px;
+  box-sizing: border-box;
 }
 
-.DataList h3 {
-  margin: 0 0 5px 0;
+.search-button {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Loading and Error States (DataList) */
-.DataList .loading {
-  font-style: italic;
-  color: #777;
+.data-component {
+  flex: 1;
+  overflow-y: auto;
 }
 
-.DataList .error {
-  color: red;
-}
 .data-item {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .data-item h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 5px 0;
 }
 
-.data-item .label {
-  font-weight: bold;
-}
-ul {
-  list-style: none; /* Removes bullet points */
-  padding: 0;       /* Removes default padding */
-}
-
-li {
-
-  border: 1px solid #ccc; /* Adds a border to each list item */
-  padding: 10px; 
-  margin-bottom: 10px;
-  border-radius: 5px;    /* Optional: Adds rounded corners */
-}
-
-/* Pagination.css */
-.pagination {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-  justify-content: center; /* Center the pagination */
-}
-
-.pagination li {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  margin: 0 5px
-; /* Adjust spacing between items */
-  cursor: pointer;
-  border-radius: 5px; /* Add rounded corners */
-}
-
-.pagination li:hover {
-  background-color: #f0f0f0; /* Highlight on hover */
-}
-
-.pagination li.active {
-  background-color: #007bff; /* Style the active page */
-  color: white;
-  border-color: #007bff; 
-}
-
-.pagination li:first-child {
-  border-top-left-radius: 5px;
-
-  border-bottom-left-radius: 5px;
-}
-
-.pagination li:last-child {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+.data-item p {
+  margin: 0 0 5px 0;
 }
