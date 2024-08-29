@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import EventBus from "../../EventBus";
+import EventBus from "../../../EventBus";
 
 export default function DataComponent() {
   const [data, setData] = useState([]);

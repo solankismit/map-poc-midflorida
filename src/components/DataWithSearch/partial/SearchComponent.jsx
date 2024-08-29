@@ -1,9 +1,10 @@
-import React from "react";
-import EventBus from "../../EventBus";
-import ReactGoogleAutocomplete from "react-google-autocomplete";
-import { calculateDistance } from "../../utils";
+import React, { useState } from "react";
+import { Autocomplete } from "@react-google-maps/api";
+import EventBus from "../../../EventBus";
+import { calculateDistance } from "../../../utils";
 
 export default function SearchComponent() {
+  const [searchResult, setSearchResult] = useState("");
   const updateData = async (selectedPlace, distance) => {
     try {
       const dataApiUrl1 = import.meta.env.VITE_DATA_API_URL;
@@ -50,16 +51,27 @@ export default function SearchComponent() {
     console.log("Place selected:", place);
     updateData(place, 50);
   };
+
+  function onLoad(autocomplete) {
+    setSearchResult(autocomplete);
+  }
+
+  function onPlaceChanged() {
+    if (searchResult != null) {
+      if (searchResult !== "") {
+        const place = searchResult.getPlace();
+        handlePlaceSelected(place);
+      }
+    } else {
+      alert("Please enter text");
+    }
+  }
   return (
     <div className="search-component">
       <h2>Find a Branch</h2>{" "}
-      <ReactGoogleAutocomplete
-        apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
-        onPlaceSelected={handlePlaceSelected}
-        types={["(regions)"]}
-        className="search-input"
-        placeholder="Search..."
-      />
+      <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+        <input type="text" placeholder="Search..." className="search-input" />
+      </Autocomplete>
       <button className="search-button" onClick={updateData}>
         Reset Results
       </button>
