@@ -29,9 +29,7 @@ export default function SearchComponent() {
             return calculatedDistance < distance;
             // Return true if distance is less than 50 miles
           });
-          console.log("Distances:", distances);
         }
-        console.log("Data fetched successfully:", data1);
         const response2 = await fetch(dataApiUrl2 + "/data", {
           method: "PUT",
           headers: {
@@ -39,7 +37,6 @@ export default function SearchComponent() {
           },
           body: JSON.stringify({ data: data1 }),
         });
-        const data2 = await response2.json();
       }
     } catch (error) {
       console.error("Error fetching or updating data:", error);
@@ -48,7 +45,6 @@ export default function SearchComponent() {
   };
 
   const handlePlaceSelected = (place) => {
-    console.log("Place selected:", place);
     updateData(place, 50);
   };
 

@@ -41,7 +41,6 @@ function CustomMapComponent() {
   };
 
   const handleListItemClick = (id) => {
-    console.log(markersRef.current);
     const marker = markersRef.current.find((marker) => marker.id === id);
     if (marker && mapRef.current) {
       mapRef.current.panTo({

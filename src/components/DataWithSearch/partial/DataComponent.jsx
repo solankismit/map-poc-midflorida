@@ -9,7 +9,6 @@ export default function DataComponent() {
   const dataApiUrl2 = import.meta.env.VITE_DATA_API_URL_2;
 
   function fetchData() {
-    console.log("fetching data...");
     fetch(dataApiUrl2) // Replace with your actual API URL
       .then((response) => response.json())
       .then((data) => (data ? setData(data[0]["data"]) : setData([])))
