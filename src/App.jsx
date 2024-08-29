@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css"; // Import your CSS file
 import FindABranchTitle from "./components/Title";
 import CustomMapComponent from "./components/CustomMapComponent";
-import DataWithSearch from "./components/DataWithSearch";
+import DataWithSearch from "./components/DataWithSearch/DataWithSearch";
 import { LoadScript } from "@react-google-maps/api";
 
 function App() {

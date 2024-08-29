@@ -33,7 +33,27 @@ function CustomMapComponent() {
         setMarkers(newMarkers);
       })
       .catch((error) => console.error("Error fetching data:", error));
+    };
+    
+  const handleMarkerClick = (id) => {
+    handleListItemClick(id);
+    EventBus.emit("markerClicked", id);
   };
+
+  const handleListItemClick = (id) => {
+    console.log(markersRef.current);
+    const marker = markersRef.current.find((marker) => marker.id === id);
+    if (marker && mapRef.current) {
+      mapRef.current.panTo({
+        lat: marker.location.lat,
+        lng: marker.location.lng,
+      });
+      google.maps.event.addListenerOnce(mapRef.current, "idle", () => {
+        mapRef.current.setZoom(10); // Adjust zoom level as needed
+      });
+    }
+  };
+    // Handle data fetching and marker click events
   useEffect(() => {
     // Fetch data from DATA_API
     fetchData();
@@ -46,52 +66,13 @@ function CustomMapComponent() {
       EventBus.off("listItemClicked", handleListItemClick);
     };
   }, []);
+
+    
   useEffect(() => {
     markersRef.current = markers;
   }, [markers]);
 
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return (...args) => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  };
 
-  const handleMarkerClick = (id) => {
-    handleListItemClick(id);
-    EventBus.emit("markerClicked", id);
-  };
-
-  //   const handleListItemClick = (id) => {
-  //     console.log(markersRef.current);
-  //     const marker = markersRef.current.find((marker) => marker.id === id);
-  //     if (marker && mapRef.current) {
-  //       mapRef.current.panTo({
-  //         lat: marker.location.lat,
-  //         lng: marker.location.lng,
-  //       });
-  //       mapRef.current.setZoom(10);
-  //     }
-  //   };
-
-  const handleListItemClick = useCallback(
-    debounce((id) => {
-      const marker = markersRef.current.find((marker) => marker.id === id);
-      if (marker && mapRef.current) {
-        mapRef.current.panTo({
-          lat: marker.location.lat,
-          lng: marker.location.lng,
-        });
-        google.maps.event.addListenerOnce(mapRef.current, "idle", () => {
-          mapRef.current.setZoom(10); // Adjust zoom level as needed
-        });
-      }
-    }, 300),
-    []
-  );
   return (
     <GoogleMap
       mapContainerStyle={mapContainerStyle}
