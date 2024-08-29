@@ -7,13 +7,11 @@ const mapContainerStyle = {
   width: "100%",
 };
 
-const center = {
-  lat: 0,
-  lng: 0,
-};
-
 function CustomMapComponent() {
   const [markers, setMarkers] = useState([]);
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [selectedMarkerId, setSelectedMarkerId] = useState(null);
+  const [googleMaps, setGoogleMaps] = useState(null);
   const markersRef = useRef([]);
   const mapRef = useRef(null);
   const dataApiUrl = import.meta.env.VITE_DATA_API_URL_2;
@@ -33,14 +31,15 @@ function CustomMapComponent() {
         setMarkers(newMarkers);
       })
       .catch((error) => console.error("Error fetching data:", error));
-    };
-    
+  };
+
   const handleMarkerClick = (id) => {
     handleListItemClick(id);
     EventBus.emit("markerClicked", id);
   };
 
   const handleListItemClick = (id) => {
+    setSelectedMarkerId(id);
     const marker = markersRef.current.find((marker) => marker.id === id);
     if (marker && mapRef.current) {
       mapRef.current.panTo({
@@ -52,32 +51,50 @@ function CustomMapComponent() {
       });
     }
   };
-    // Handle data fetching and marker click events
+  const handleDataUpdate = (center) => {
+    fetchData();
+    setCenter(center);
+  };
+  // Handle data fetching and marker click events
   useEffect(() => {
     // Fetch data from DATA_API
     fetchData();
-    EventBus.on("dataUpdated", fetchData);
+    EventBus.on("dataUpdated", handleDataUpdate);
 
     EventBus.on("listItemClicked", handleListItemClick);
 
     return () => {
-      EventBus.off("dataUpdated", fetchData);
+      EventBus.off("dataUpdated", handleDataUpdate);
       EventBus.off("listItemClicked", handleListItemClick);
     };
   }, []);
 
-    
   useEffect(() => {
     markersRef.current = markers;
   }, [markers]);
 
+  const createIcon = (url, size) => {
+    if (googleMaps) {
+      return {
+        url,
+        scaledSize: new googleMaps.Size(size, size),
+      };
+    }
+    return null;
+  };
+
+  const defaultIcon = createIcon("/marker.png", 30);
+  const selectedIcon = createIcon("/selected-marker.png", 40);
 
   return (
     <GoogleMap
       mapContainerStyle={mapContainerStyle}
       center={center}
       zoom={2}
-      onLoad={(map) => (mapRef.current = map)}
+      onLoad={(map) => {
+        mapRef.current = map;
+        setGoogleMaps(window.google.maps);
+      }}
       options={{
         gestureHandling: "greedy", // Optional: Improve user interaction
         zoomControlOptions: {
@@ -92,6 +109,7 @@ function CustomMapComponent() {
       {markers.map((position, index) => (
         <Marker
           key={index}
+          icon={position?.id === selectedMarkerId ? selectedIcon : defaultIcon}
           position={position.location}
           onClick={() => handleMarkerClick(position.id)}
         />

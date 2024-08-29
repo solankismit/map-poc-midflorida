@@ -41,7 +41,7 @@ export default function SearchComponent() {
     } catch (error) {
       console.error("Error fetching or updating data:", error);
     }
-    EventBus.emit("dataUpdated");
+    EventBus.emit("dataUpdated", selectedPlace?.geometry?.location);
   };
 
   const handlePlaceSelected = (place) => {
