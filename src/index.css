@@ -21,6 +21,7 @@
 .content-wrapper {
   display: flex;
   flex: 1;
+  overflow-y: auto;
 }
 
 .filter-sidebar {
@@ -91,13 +92,18 @@
 .data-component {
   flex: 1;
   overflow-y: auto;
+  
 }
 
 .data-item {
+  cursor: pointer;
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
 
+.data-item.selected {
+  border: 2px solid blue;
+}
 .data-item h3 {
   margin: 0 0 5px 0;
 }

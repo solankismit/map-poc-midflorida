@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import EventBus from "../EventBus";
 import ReactGoogleAutocomplete from "react-google-autocomplete";
+import { calculateDistance } from "../utils";
 
 function SearchComponent() {
   const updateData = async (selectedPlace, distance) => {
@@ -11,11 +12,8 @@ function SearchComponent() {
       let data1 = await response1.json();
 
       if (data1) {
-        console.log("INIT Data fetched successfully:", data1);
-        //   If distance is in int
         if (typeof distance === "number") {
           let distances = [];
-          console.log("Filtering data based on distance:", distance);
           // Filter data based on distance
           data1 = data1.filter((item) => {
             // Calculate distance between item and selected place
@@ -41,7 +39,6 @@ function SearchComponent() {
           body: JSON.stringify({ data: data1 }),
         });
         const data2 = await response2.json();
-        // setData(data2);
       }
     } catch (error) {
       console.error("Error fetching or updating data:", error);
@@ -49,25 +46,6 @@ function SearchComponent() {
     EventBus.emit("dataUpdated");
   };
 
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Radius of the Earth in kilometers
-    console.log("Calculating distance between:", lat1, lon1, lat2, lon2);
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in kilometers
-    const distanceInMiles = Math.floor(distance / 1.609);
-    return distanceInMiles;
-  };
   const handlePlaceSelected = (place) => {
     console.log("Place selected:", place);
     //   Get Lat,lng from place object and set data that is 50 miles from that lat,lng
@@ -95,6 +73,8 @@ function SearchComponent() {
 function DataComponent() {
   const [data, setData] = useState([]);
 
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const selectedItemRef = useRef(null);
   const dataApiUrl2 = import.meta.env.VITE_DATA_API_URL_2;
 
   function fetchData() {
@@ -104,19 +84,44 @@ function DataComponent() {
       .then((data) => (data ? setData(data[0]["data"]) : setData([])))
       .catch((error) => console.error("Error fetching data:", error));
   }
+  const handleItemClick = (id) => {
+    setSelectedItemId(id);
+    EventBus.emit("listItemClicked", id);
+  };
+  const handleMarkerClick = (id) => {
+    setSelectedItemId(id);
+  };
+  useEffect(() => {
+    if (selectedItemRef.current) {
+      selectedItemRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [selectedItemId]);
   useEffect(() => {
     fetchData();
     EventBus.on("dataUpdated", fetchData);
 
+    EventBus.on("markerClicked", handleMarkerClick);
+
     return () => {
       EventBus.off("dataUpdated", fetchData);
+      EventBus.off("markerClicked", handleMarkerClick);
     };
   }, []);
 
   return (
     <div className="data-component">
       {data.map((item) => (
-        <div key={item.id} className="data-item">
+        <div
+          key={item.id}
+          ref={selectedItemId === item.id ? selectedItemRef : null}
+          className={`data-item  ${
+            selectedItemId === item.id ? "selected" : ""
+          }`}
+          onClick={() => handleItemClick(item.id)}
+        >
           <h3>{item.title}</h3>
           <p>{item.address}</p>
           <p>{item.zipcode}</p>

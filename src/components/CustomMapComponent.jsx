@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import EventBus from "../EventBus";
 
@@ -14,8 +14,9 @@ const center = {
 
 function CustomMapComponent() {
   const [markers, setMarkers] = useState([]);
+  const markersRef = useRef([]);
+  const mapRef = useRef(null);
   const dataApiUrl = import.meta.env.VITE_DATA_API_URL_2;
-  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   const fetchData = async () => {
     fetch(dataApiUrl)
@@ -23,8 +24,11 @@ function CustomMapComponent() {
       .then((data) => {
         const finalData = data[0]["data"];
         const newMarkers = finalData.map((item) => ({
-          lat: parseFloat(item.location[0]),
-          lng: parseFloat(item.location[1]),
+          id: item.id,
+          location: {
+            lat: parseFloat(item.location[0]),
+            lng: parseFloat(item.location[1]),
+          },
         }));
         setMarkers(newMarkers);
       })
@@ -34,12 +38,83 @@ function CustomMapComponent() {
     // Fetch data from DATA_API
     fetchData();
     EventBus.on("dataUpdated", fetchData);
-  }, []);
 
+    EventBus.on("listItemClicked", handleListItemClick);
+
+    return () => {
+      EventBus.off("dataUpdated", fetchData);
+      EventBus.off("listItemClicked", handleListItemClick);
+    };
+  }, []);
+  useEffect(() => {
+    markersRef.current = markers;
+  }, [markers]);
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleMarkerClick = (id) => {
+    handleListItemClick(id);
+    EventBus.emit("markerClicked", id);
+  };
+
+  //   const handleListItemClick = (id) => {
+  //     console.log(markersRef.current);
+  //     const marker = markersRef.current.find((marker) => marker.id === id);
+  //     if (marker && mapRef.current) {
+  //       mapRef.current.panTo({
+  //         lat: marker.location.lat,
+  //         lng: marker.location.lng,
+  //       });
+  //       mapRef.current.setZoom(10);
+  //     }
+  //   };
+
+  const handleListItemClick = useCallback(
+    debounce((id) => {
+      const marker = markersRef.current.find((marker) => marker.id === id);
+      if (marker && mapRef.current) {
+        mapRef.current.panTo({
+          lat: marker.location.lat,
+          lng: marker.location.lng,
+        });
+        google.maps.event.addListenerOnce(mapRef.current, "idle", () => {
+          mapRef.current.setZoom(10); // Adjust zoom level as needed
+        });
+      }
+    }, 300),
+    []
+  );
   return (
-    <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={2}>
+    <GoogleMap
+      mapContainerStyle={mapContainerStyle}
+      center={center}
+      zoom={2}
+      onLoad={(map) => (mapRef.current = map)}
+      options={{
+        gestureHandling: "greedy", // Optional: Improve user interaction
+        zoomControlOptions: {
+          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+        },
+        mapTypeControlOptions: {
+          position: window.google.maps.ControlPosition.TOP_RIGHT,
+        },
+        animation: true,
+      }}
+    >
       {markers.map((position, index) => (
-        <Marker key={index} position={position} />
+        <Marker
+          key={index}
+          position={position.location}
+          onClick={() => handleMarkerClick(position.id)}
+        />
       ))}
     </GoogleMap>
   );
