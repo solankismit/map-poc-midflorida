@@ -15,25 +15,23 @@
 .App {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .content-wrapper {
   display: flex;
-  flex: 1;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .filter-sidebar {
   flex: 1;
-  max-width: 25%;
   padding: 10px;
   box-sizing: border-box;
   overflow-y: auto;
 }
 
 .map {
-  flex: 3;
+  flex: 2;
   padding: 10px;
   box-sizing: border-box;
 }
@@ -63,7 +61,7 @@
 .data-with-search {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 75vh;
 }
 
 .search-component {
@@ -110,4 +108,26 @@
 
 .data-item p {
   margin: 0 0 5px 0;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.categories,
+.distance {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.categories h3,
+.distance h3 {
+  margin-bottom: 5px;
+}
+
+.categories div,
+.distance div {
+  margin-bottom: 5px;
 }

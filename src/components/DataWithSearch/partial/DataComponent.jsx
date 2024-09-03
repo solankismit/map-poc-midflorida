@@ -1,23 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import EventBus from "../../../EventBus";
+import useFetchData from "../../../hooks/useFetchData";
 
 export default function DataComponent() {
-  const [data, setData] = useState([]);
-
+  const data = useFetchData();
   const [selectedItemId, setSelectedItemId] = useState(null);
   const selectedItemRef = useRef(null);
-  const dataApiUrl2 = import.meta.env.VITE_DATA_API_URL_2;
 
-  function fetchData() {
-    fetch(dataApiUrl2) // Replace with your actual API URL
-      .then((response) => response.json())
-      .then((data) => (data ? setData(data[0]["data"]) : setData([])))
-      .catch((error) => console.error("Error fetching data:", error));
-  }
   const handleItemClick = (id) => {
     setSelectedItemId(id);
     EventBus.emit("listItemClicked", id);
   };
+
   const handleMarkerClick = (id) => {
     setSelectedItemId(id);
   };
@@ -30,13 +24,9 @@ export default function DataComponent() {
     }
   }, [selectedItemId]);
   useEffect(() => {
-    fetchData();
-    EventBus.on("dataUpdated", fetchData);
-
     EventBus.on("markerClicked", handleMarkerClick);
 
     return () => {
-      EventBus.off("dataUpdated", fetchData);
       EventBus.off("markerClicked", handleMarkerClick);
     };
   }, []);

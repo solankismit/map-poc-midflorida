@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import EventBus from "../EventBus";
+import useFetchData from "../hooks/useFetchData";
 
 const mapContainerStyle = {
   height: "500px",
@@ -16,22 +17,18 @@ function CustomMapComponent() {
   const mapRef = useRef(null);
   const dataApiUrl = import.meta.env.VITE_DATA_API_URL_2;
 
-  const fetchData = async () => {
-    fetch(dataApiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        const finalData = data[0]["data"];
-        const newMarkers = finalData.map((item) => ({
-          id: item.id,
-          location: {
-            lat: parseFloat(item.location[0]),
-            lng: parseFloat(item.location[1]),
-          },
-        }));
-        setMarkers(newMarkers);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  };
+  const data = useFetchData();
+  // Extract markers from data
+  useEffect(() => {
+    const newMarkers = data.map((item) => ({
+      id: item.id,
+      location: {
+        lat: parseFloat(item.location[0]),
+        lng: parseFloat(item.location[1]),
+      },
+    }));
+    setMarkers(newMarkers);
+  }, [data]);
 
   const handleMarkerClick = (id) => {
     handleListItemClick(id);
@@ -51,20 +48,21 @@ function CustomMapComponent() {
       });
     }
   };
+
   const handleDataUpdate = (center) => {
-    fetchData();
-    setCenter(center);
+    mapRef.current.panTo(center);
+    google.maps.event.addListenerOnce(mapRef.current, "idle", () => {
+      mapRef.current.setZoom(5);
+    });
   };
   // Handle data fetching and marker click events
   useEffect(() => {
-    // Fetch data from DATA_API
-    fetchData();
-    EventBus.on("dataUpdated", handleDataUpdate);
+    EventBus.on("placeChanged", handleDataUpdate);
 
     EventBus.on("listItemClicked", handleListItemClick);
 
     return () => {
-      EventBus.off("dataUpdated", handleDataUpdate);
+      EventBus.off("placeChanged", handleDataUpdate);
       EventBus.off("listItemClicked", handleListItemClick);
     };
   }, []);

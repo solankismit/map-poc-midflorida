@@ -1,75 +1,106 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import EventBus from "../../../EventBus";
-import { calculateDistance } from "../../../utils";
+import { useNavigate } from "react-router-dom";
+
+const categories = ["ATM", "Bank", "Credit Union"];
 
 export default function SearchComponent() {
-  const [searchResult, setSearchResult] = useState("");
-  const updateData = async (selectedPlace, distance) => {
-    try {
-      const dataApiUrl1 = import.meta.env.VITE_DATA_API_URL;
-      const dataApiUrl2 = import.meta.env.VITE_DATA_API_URL_2;
-      const response1 = await fetch(dataApiUrl1, { method: "GET" });
-      let data1 = await response1.json();
-
-      if (data1) {
-        if (typeof distance === "number") {
-          let distances = [];
-          // Filter data based on distance
-          data1 = data1.filter((item) => {
-            // Calculate distance between item and selected place
-            const calculatedDistance = calculateDistance(
-              item.location[0],
-              item.location[1],
-              selectedPlace.geometry.location.lat(),
-              selectedPlace.geometry.location.lng()
-            );
-            distances.push(calculatedDistance);
-
-            return calculatedDistance < distance;
-            // Return true if distance is less than 50 miles
-          });
-        }
-        const response2 = await fetch(dataApiUrl2 + "/data", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ data: data1 }),
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching or updating data:", error);
-    }
-    EventBus.emit("dataUpdated", selectedPlace?.geometry?.location);
-  };
+  const [autocompleteInstance, setAutocompleteInstance] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [distance, setDistance] = useState("50");
+  const navigate = useNavigate();
 
   const handlePlaceSelected = (place) => {
-    updateData(place, 50);
+    // Insert it in URL Query
+    const url = new URL(window.location.href);
+    if (place && place.geometry && place.geometry.location) {
+      // url.searchParams.set("place", place.formatted_address);
+      url.searchParams.set("lat", place?.geometry?.location?.lat());
+      url.searchParams.set("lon", place?.geometry?.location?.lng());
+    } else {
+      url.searchParams.delete("lat");
+      url.searchParams.delete("lon");
+    }
+
+    if (selectedCategories.length > 0) {
+      url.searchParams.set("categories", selectedCategories.join(","));
+    } else {
+      url.searchParams.delete("categories");
+    }
+    if (place && place.geometry && place.geometry.location && distance > 0) {
+      url.searchParams.set("distance", distance);
+    } else {
+      url.searchParams.delete("distance");
+    }
+    navigate(url.pathname + url.search);
   };
 
   function onLoad(autocomplete) {
-    setSearchResult(autocomplete);
+    setAutocompleteInstance(autocomplete);
   }
 
   function onPlaceChanged() {
-    if (searchResult != null) {
-      if (searchResult !== "") {
-        const place = searchResult.getPlace();
+    if (autocompleteInstance != null) {
+      if (autocompleteInstance !== "") {
+        const place = autocompleteInstance.getPlace();
         handlePlaceSelected(place);
+
+        // Emit event to update the map
+        if (place?.geometry && place?.geometry?.location) {
+          EventBus.emit("placeChanged", {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+          });
+        }
       }
     } else {
       alert("Please enter text");
     }
   }
+
+  const handleCategoryChange = (category) => {
+    console.log("category", category);
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
   return (
     <div className="search-component">
       <h2>Find a Branch</h2>{" "}
       <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
         <input type="text" placeholder="Search..." className="search-input" />
       </Autocomplete>
-      <button className="search-button" onClick={updateData}>
-        Reset Results
+      <div className="filters">
+        <div className="categories">
+          <h3>Categories</h3>
+          {categories.map((category) => (
+            <div key={category}>
+              <input
+                type="checkbox"
+                id={category}
+                value={category}
+                onChange={() => handleCategoryChange(category)}
+              />
+              <label htmlFor={category}>{category}</label>
+            </div>
+          ))}
+        </div>
+        <div className="distance">
+          <h3>Distance (miles)</h3>
+          <input
+            type="number"
+            value={distance}
+            onChange={(e) => setDistance(e.target.value)}
+            placeholder="Enter distance"
+          />
+        </div>
+      </div>
+      <button className="search-button" onClick={() => onPlaceChanged()}>
+        Refine Results
       </button>
     </div>
   );
