@@ -41,6 +41,7 @@ export default function SearchComponent() {
   }
 
   function onPlaceChanged() {
+    EventBus.emit("resetMap");
     if (autocompleteInstance != null) {
       if (autocompleteInstance !== "") {
         const place = autocompleteInstance.getPlace();

@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
       <FindABranchTitle />
-      <Router>
+   
         <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
           <div className="content-wrapper">
             <div className="filter-sidebar">
@@ -24,7 +24,6 @@ function App() {
             </div>
           </div>
         </LoadScript>
-      </Router>
     </div>
   );
 }

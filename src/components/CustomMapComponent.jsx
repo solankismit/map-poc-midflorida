@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import React, { useEffect, useRef, useState } from "react";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 import EventBus from "../EventBus";
-import useFetchData from "../hooks/useFetchData";
+import { useData } from "../DataContext";
 
 const mapContainerStyle = {
   height: "500px",
@@ -15,9 +15,8 @@ function CustomMapComponent() {
   const [googleMaps, setGoogleMaps] = useState(null);
   const markersRef = useRef([]);
   const mapRef = useRef(null);
-  const dataApiUrl = import.meta.env.VITE_DATA_API_URL_2;
 
-  const data = useFetchData();
+  const data = useData();
   // Extract markers from data
   useEffect(() => {
     const newMarkers = data.map((item) => ({
@@ -55,15 +54,21 @@ function CustomMapComponent() {
       mapRef.current.setZoom(5);
     });
   };
+
   // Handle data fetching and marker click events
   useEffect(() => {
     EventBus.on("placeChanged", handleDataUpdate);
-
     EventBus.on("listItemClicked", handleListItemClick);
-
+    EventBus.on("resetMap", () => {
+      setSelectedMarkerId(null);
+      EventBus.emit("markerClicked", null);
+    });
     return () => {
       EventBus.off("placeChanged", handleDataUpdate);
       EventBus.off("listItemClicked", handleListItemClick);
+      EventBus.off("resetMap", () => {
+        setSelectedMarkerId(null);
+      });
     };
   }, []);
 

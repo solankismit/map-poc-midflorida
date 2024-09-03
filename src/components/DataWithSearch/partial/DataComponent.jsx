@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import EventBus from "../../../EventBus";
-import useFetchData from "../../../hooks/useFetchData";
+import { useData } from "../../../DataContext";
 
 export default function DataComponent() {
-  const data = useFetchData();
+  const data = useData();
   const [selectedItemId, setSelectedItemId] = useState(null);
   const selectedItemRef = useRef(null);
 
@@ -12,7 +12,11 @@ export default function DataComponent() {
     EventBus.emit("listItemClicked", id);
   };
 
-  const handleMarkerClick = (id) => {
+  const handleMarkerClick = (id = 0) => {
+    if (id === 0) {
+      setSelectedItemId(null);
+      return;
+    }
     setSelectedItemId(id);
   };
   useEffect(() => {
