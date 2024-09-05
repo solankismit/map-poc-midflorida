@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 function useQuery() {
   const location = useLocation();
-  return new URLSearchParams(location.search);
+  return useMemo(() => new URLSearchParams(location.search), [location.search]);
 }
 
 function useFetchData() {
@@ -12,33 +12,42 @@ function useFetchData() {
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [abortController, setAbortController] = useState(null);
 
-  useEffect(() => {
-    // Fetch data with no query parameters initially
-    const controller = new AbortController();
-    setAbortController(controller);
-    const dataApiUrl = `${import.meta.env.VITE_DATA_API_URL}`;
-    console.log("Fetching initial data...");
-
-    fetch(dataApiUrl, { signal: controller.signal })
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data ? data : []);
-        setInitialFetchDone(true);
+  // Helper function to fetch data
+  const fetchData = (url, controller) => {
+    return fetch(url, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
+      .then((fetchedData) => setData(fetchedData ? fetchedData : []))
       .catch((error) => {
         if (error.name === "AbortError") {
-          console.log("Initial fetch aborted");
+          console.log("Fetch aborted");
         } else {
-          console.error("Error fetching initial data:", error);
+          console.error("Error fetching data:", error);
         }
       });
+  };
+
+  // Memoize the query string to avoid unnecessary recomputations
+  const queryStr = useMemo(() => query.toString(), [query]);
+
+  useEffect(() => {
+    // Initial fetch without query parameters
+    const controller = new AbortController();
+    setAbortController(controller);
+
+    const dataApiUrl = `${import.meta.env.VITE_DATA_API_URL}`;
+    fetchData(dataApiUrl, controller).then(() => setInitialFetchDone(true));
 
     return () => controller.abort();
   }, []);
 
   useEffect(() => {
     if (initialFetchDone) {
-      // Abort the previous fetch request if a new one is initiated
+      // Abort the previous fetch if a new one is initiated
       if (abortController) {
         abortController.abort();
       }
@@ -46,34 +55,15 @@ function useFetchData() {
       const controller = new AbortController();
       setAbortController(controller);
 
-      // Fetch data with query parameters if they exist
-      // console.log("Fetching data with query parameters...", query.toString());
-      let queryStr = "";
-      query.forEach((value, key) => {
-        queryStr += `${key}=${value}&`;
-      });
-
-      queryStr = queryStr.slice(0, -1);
-      const dataApiUrl = `${import.meta.env.VITE_DATA_API_URL}?${queryStr}`;
-
-      fetch(dataApiUrl, { signal: controller.signal })
-        .then((response) => response.json())
-        .then((data) => setData(data ? data : []))
-        .catch((error) => {
-          if (error.name === "AbortError") {
-            console.log("Fetch with query parameters aborted");
-          } else {
-            console.error("Error fetching data:", error);
-          }
-        });
+      // If there are query parameters, fetch data with them
+      const dataApiUrl = `${import.meta.env.VITE_DATA_API_URL}${
+        queryStr ? `?${queryStr}` : ""
+      }`;
+      fetchData(dataApiUrl, controller);
 
       return () => controller.abort();
     }
-  }, [query.toString(), initialFetchDone]);
-
-  useEffect(() => {
-    console.log("Data fetched:", data ? data.length : 0);
-  }, [data]);
+  }, [queryStr, initialFetchDone]);
 
   return data;
 }
