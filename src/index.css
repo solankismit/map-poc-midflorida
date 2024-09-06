@@ -131,3 +131,34 @@
 .distance div {
   margin-bottom: 5px;
 }
+
+.selected-marker {
+  color: blue;
+}
+
+.info-window {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+}
+
+.selected-marker {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  max-width: 200px;
+  /* Adjust the width as needed */
+}
+
+.selected-marker h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.selected-marker p {
+  margin: 5px 0;
+  font-size: 14px;
+}
