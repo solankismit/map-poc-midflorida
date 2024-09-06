@@ -35,6 +35,7 @@ export default function SearchComponent() {
     } else {
       url.searchParams.delete("lat");
       url.searchParams.delete("lon");
+      EventBus.emit("resetMap");
     }
 
     if (selectedCategories.length > 0) {
@@ -56,7 +57,6 @@ export default function SearchComponent() {
 
   function onPlaceChanged() {
     console.log("onPlaceChanged :: ", autocompleteInstance.current);
-    EventBus.emit("resetMap");
 
     if (autocompleteInstance.current) {
       const innerplace = autocompleteInstance.current.getPlace();
