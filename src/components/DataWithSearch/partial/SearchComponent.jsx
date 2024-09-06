@@ -17,8 +17,8 @@ export default function SearchComponent() {
 
   const [predictions, setPredictions] = useState([]);
 
-  const handlePlaceSelected = (place) => {
-    console.log("handleplaceSelected :: ", place);
+  const handlePlaceSelected = (from, place) => {
+    console.log("handleplaceSelected from ", from, " :: ", place);
     setInputValue(place?.description || place?.formatted_address || "");
     // Insert it in URL Query
     const url = new URL(window.location.href);
@@ -58,20 +58,20 @@ export default function SearchComponent() {
     console.log("onPlaceChanged :: ", autocompleteInstance.current);
     EventBus.emit("resetMap");
 
-    if (autocompleteInstance != null) {
-      if (autocompleteInstance !== "") {
-        const innerplace = autocompleteInstance.current.getPlace();
-        // Remove name key and check if the place is valid
-        // Check if other keys are present
-        if (innerplace && Object.keys(innerplace).length > 1) {
-          setPlace(innerplace);
-          handlePlaceSelected(innerplace);
-        } else {
-          handlePlaceSelected(place);
-        }
+    if (autocompleteInstance.current) {
+      const innerplace = autocompleteInstance.current.getPlace();
+
+      if (
+        inputValue != "" &&
+        innerplace &&
+        Object.keys(innerplace).length > 1
+      ) {
+        setPlace(innerplace);
+        handlePlaceSelected(" innerplace onPlacedChanged", innerplace);
+        setPredictions([]);
+      } else {
+        handlePlaceSelected(" else onPlacedChanged", place);
       }
-    } else {
-      alert("Please enter text");
     }
   }
 
@@ -79,6 +79,9 @@ export default function SearchComponent() {
     console.log("handleInputChange :: ", e.target.value);
     console.log("SETTING NULL");
     setPlace(null);
+    // if (e.target.value === "") {
+    setPredictions([]);
+    // }
     const value = e.target.value;
     setInputValue(value);
     // Fetch predictions based on user input
@@ -107,7 +110,7 @@ export default function SearchComponent() {
         (details, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setPlace(details); // Update place with full details
-            handlePlaceSelected(details); // Call to handlePlaceSelected with full details
+            handlePlaceSelected("handle proceed", details); // Call to handlePlaceSelected with full details
           } else {
             console.error("Error fetching place details:", status);
           }
@@ -169,7 +172,10 @@ export default function SearchComponent() {
           />
         </div>
       </div>
-      <button className="search-button" onClick={() => onPlaceChanged()}>
+      <button
+        className="search-button"
+        onClick={() => handlePlaceSelected(place)}
+      >
         Refine Results
       </button>
     </div>
