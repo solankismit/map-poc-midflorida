@@ -87,14 +87,17 @@ export default function SearchComponent() {
     // Fetch predictions based on user input
     if (autocompleteInstance.current) {
       const service = new window.google.maps.places.AutocompleteService();
-      service.getPlacePredictions({ input: value }, (results, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          console.log("Predictions:", results);
-          setPredictions(results);
-        } else {
-          setPredictions([]);
+      service.getPlacePredictions(
+        { input: value, componentRestrictions: { country: "us" } },
+        (results, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            console.log("Predictions:", results);
+            setPredictions(results);
+          } else {
+            setPredictions([]);
+          }
         }
-      });
+      );
     }
   };
 
@@ -136,7 +139,11 @@ export default function SearchComponent() {
   return (
     <div className="search-component">
       <h2>Find a Branch</h2>{" "}
-      <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+      <Autocomplete
+        onLoad={onLoad}
+        onPlaceChanged={onPlaceChanged}
+        options={{ componentRestrictions: { country: "us" } }}
+      >
         <input
           id="autocomplete-instance"
           type="text"
