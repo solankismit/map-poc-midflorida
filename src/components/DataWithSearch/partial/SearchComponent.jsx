@@ -16,7 +16,13 @@ export default function SearchComponent() {
   const [place, setPlace] = useState(null);
 
   const [predictions, setPredictions] = useState([]);
-
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const placeQuery = urlParams.get("place");
+  if (placeQuery) {
+    setInputValue(placeQuery);
+  }
+}, []);
   const handlePlaceSelected = (from, place) => {
     console.log("handleplaceSelected from ", from, " :: ", place);
     setInputValue(place?.description || place?.formatted_address || "");
