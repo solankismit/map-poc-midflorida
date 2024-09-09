@@ -16,13 +16,16 @@ export default function SearchComponent() {
   const [place, setPlace] = useState(null);
 
   const [predictions, setPredictions] = useState([]);
-useEffect(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const placeQuery = urlParams.get("place");
-  if (placeQuery) {
-    setInputValue(placeQuery);
-  }
-}, []);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const placeQuery = urlParams.get("place");
+    if (placeQuery) {
+      setInputValue(
+        placeQuery.toString().charAt(0).toUpperCase() +
+          placeQuery.toString().slice(1)
+      );
+    }
+  }, []);
   const handlePlaceSelected = (from, place) => {
     console.log("handleplaceSelected from ", from, " :: ", place);
     setInputValue(place?.description || place?.formatted_address || "");
