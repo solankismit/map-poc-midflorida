@@ -8,9 +8,9 @@ const mapContainerStyle = {
   width: "100%",
 };
 
-function CustomMapComponent() {
+function CustomMapComponent({ initialCenter, onMapLoad }) {
   const [markers, setMarkers] = useState([]);
-  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [center, setCenter] = useState(initialCenter ?? { lat: 0, lng: 0 });
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const [selectedMarkerDetails, setSelectedMarkerDetails] = useState(null);
   const [googleMaps, setGoogleMaps] = useState(null);
@@ -71,6 +71,14 @@ function CustomMapComponent() {
       setSelectedMarkerDetails(null); // Clear selected marker details
       EventBus.emit("markerClicked", null);
     });
+    console.log("Initial center: ", initialCenter);
+    console.log(
+      "Center: ",
+      center?.lat == center?.lng,
+      center?.lat === 0,
+      center?.lat,
+      center?.lng
+    );
     return () => {
       EventBus.off("placeChanged", handleDataUpdate);
       EventBus.off("listItemClicked", handleListItemClick);
@@ -80,6 +88,12 @@ function CustomMapComponent() {
       });
     };
   }, []);
+
+  useEffect(() => {
+    if (initialCenter) {
+      setCenter(initialCenter);
+    }
+  }, [initialCenter]);
 
   useEffect(() => {
     markersRef.current = markers;
@@ -101,11 +115,14 @@ function CustomMapComponent() {
   return (
     <GoogleMap
       mapContainerStyle={mapContainerStyle}
-      center={center}
-      zoom={2}
+      center={initialCenter}
+      zoom={center?.lat == center?.lng && center?.lng === 0 ? 2 : 5}
       onLoad={(map) => {
         mapRef.current = map;
         setGoogleMaps(window.google.maps);
+        if (onMapLoad) {
+          onMapLoad();
+        }
       }}
       options={{
         gestureHandling: "greedy", // Optional: Improve user interaction

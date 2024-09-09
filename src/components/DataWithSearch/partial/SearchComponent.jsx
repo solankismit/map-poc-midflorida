@@ -27,14 +27,18 @@ export default function SearchComponent() {
       const lon = place.geometry.location.lng();
       // url.searchParams.set("place", place.formatted_address);
       url.searchParams.set("lat", lat);
-      url.searchParams.set("lon", lon);
+      url.searchParams.set("lng", lon);
+      url.searchParams.set(
+        "place",
+        place?.formatted_address || place?.name || place?.description || ""
+      );
       EventBus.emit("placeChanged", {
         lat: lat,
         lng: lon,
       });
     } else {
       url.searchParams.delete("lat");
-      url.searchParams.delete("lon");
+      url.searchParams.delete("lng");
       EventBus.emit("resetMap");
     }
 
