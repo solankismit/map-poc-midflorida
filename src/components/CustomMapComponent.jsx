@@ -4,7 +4,7 @@ import EventBus from "../EventBus";
 import { useData } from "../DataContext";
 
 const mapContainerStyle = {
-  height: "500px",
+  height: "914px",
   width: "100%",
 };
 

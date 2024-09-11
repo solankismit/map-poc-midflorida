@@ -1,0 +1,268 @@
+.filter-sidebar {
+    background-color: #ECF6FE;
+    flex: 1;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+
+    &::-webkit-scrollbar {
+        width: 24px;
+
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #fff;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 40px;
+        background-color: #042968;
+        border: 8px solid #fff;
+    }
+
+    .data-with-search {
+        padding: 40px 22px 40px 104px;
+        height: 100%;
+
+        .search-component {
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+
+            &::after {
+                content: '';
+                width: 100%;
+                height: 1px;
+                background-color: #D4D5D6;
+                margin-bottom: 16px;
+
+
+            }
+
+            h6 {
+                color: #404040
+            }
+
+            .search-button,
+            .search-input {
+                background-color: white;
+                width: 100%;
+                border: 1px solid #D4D5D6;
+                border-radius: 4px;
+                padding: 12px 8px;
+                color: #042968;
+            }
+
+            .search-button {
+                display: flex;
+                justify-content: center;
+                cursor: pointer;
+                font-weight: 700;
+
+                // Add divider of with 1px width and grey color
+
+
+
+            }
+        }
+
+        .data-component {
+            .data-numbers {
+                font-weight: 700;
+            }
+
+            .data-items {
+                .data-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    color: #404040;
+                    background-color: white;
+                    border-radius: 8px;
+                    margin-top: 16px;
+
+                    position: relative;
+                    /* Ensure the pseudo-element is positioned correctly */
+                    overflow: hidden;
+                    /* Ensure the border radius is applied correctly */
+
+                    &.selected {
+                        &::before {
+                            content: unset
+                        }
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 4px;
+                        /* Adjust the height as needed */
+                        background: linear-gradient(to right, #0077CB, #00A784);
+                        border-top-left-radius: 8px;
+                        /* Match the border radius of the parent */
+                        border-top-right-radius: 8px;
+                        /* Match the border radius of the parent */
+                    }
+
+
+                    .weather {
+
+                        background-color: #B23427;
+                        padding: 8px 16px;
+                        color: white;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        &-text {
+                            display: flex;
+                            gap: 4px;
+                            align-items: center;
+                            font-weight: 700;
+                        }
+
+                        &-link {
+                            display: flex;
+                            gap: 4px;
+
+                            img {
+                                object-fit: contain;
+                            }
+                        }
+                    }
+
+                    .branch-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        padding: 0 16px;
+
+                        .categories {
+                            font-weight: 700;
+                            color: #404040;
+                        }
+
+                        .branch-name {
+                            font-weight: 700;
+                            color: #042968;
+                            display: flex;
+                            font-weight: 700;
+                            gap: 8px;
+
+                            span {
+                                display: inline-block;
+                                width: 24px;
+                                height: 24px;
+                                line-height: 24px;
+                                border-radius: 50%;
+                                background-color: #008674;
+                                color: white;
+                                text-align: center;
+                                font-weight: bold;
+                            }
+
+                            p {
+                                font-weight: 700;
+                            }
+
+                        }
+
+                        .address {
+                            color: #404040;
+
+                        }
+
+                    }
+
+
+                    .card {
+                        cursor: pointer;
+                        padding: 16px;
+                        border-radius: 8px;
+                        margin-bottom: 16px;
+
+                        background-color: #F4F4F4;
+                        border-radius: 4px;
+                        margin: 0 8px;
+                        padding: 8px 16px;
+                    }
+
+                    .dropdown {
+                        font-weight: 700;
+                        color: #042968;
+                        display: flex;
+                        justify-content: space-between;
+
+                        .icon {
+                            transform: rotate(180deg);
+
+                            &.opened {
+                                transform: rotate(0deg);
+                            }
+                        }
+                    }
+
+                    .dropdown-content {
+                        margin-top: 16px;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    .features,
+                    .branch-hours {
+                        width: 48%;
+                    }
+
+                    .features h3,
+                    .branch-hours h3 {
+                        margin-bottom: 8px;
+                    }
+
+                    .branch-hours ul {
+                        list-style-type: none;
+                        padding: 0;
+                    }
+
+                    .features ul {
+                        list-style: disc;
+                        list-style-position: inside;
+                    }
+
+                    .features li,
+                    .branch-hours li {
+                        margin-bottom: 4px;
+                    }
+
+
+
+                    .place {
+                        border-top: 1px solid #D4D5D6;
+                        padding: 8px 16px;
+                        display: flex;
+                        gap: 8px;
+                        align-items: center;
+
+                        &-distance {
+                            position: relative;
+                            font-weight: 700;
+
+
+                        }
+
+                        &-direction ,&-details{
+                            display: flex;
+                            gap: 4px;
+                            align-items: center;
+
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

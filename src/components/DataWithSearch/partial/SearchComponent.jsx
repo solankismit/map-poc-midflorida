@@ -149,9 +149,37 @@ export default function SearchComponent() {
     );
   };
 
+  const IconComponent = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="25"
+      height="24"
+      viewBox="0 0 25 24"
+      fill="none"
+    >
+      <mask
+        id="mask0_2649_37270"
+        style={{ maskType: "alpha" }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="25"
+        height="24"
+      >
+        <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_2649_37270)">
+        <path
+          d="M10.5 18V16H14.5V18H10.5ZM6.5 13V11H18.5V13H6.5ZM3.5 8V6H21.5V8H3.5Z"
+          fill="#042968"
+        />
+      </g>
+    </svg>
+  );
+
   return (
     <div className="search-component">
-      <h2>Find a Branch</h2>{" "}
+      <h6>Find a Branch or ATM</h6>{" "}
       <Autocomplete
         onLoad={onLoad}
         onPlaceChanged={onPlaceChanged}
@@ -160,14 +188,14 @@ export default function SearchComponent() {
         <input
           id="autocomplete-instance"
           type="text"
-          placeholder="Search..."
+          placeholder="Enter Zip Code or Address,City,State"
           className="search-input"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />
       </Autocomplete>
-      <div className="filters">
+      {/* <div className="filters">
         <div className="categories">
           <h3>Categories</h3>
           {categories.map((category) => (
@@ -191,11 +219,12 @@ export default function SearchComponent() {
             placeholder="Enter distance"
           />
         </div>
-      </div>
+      </div> */}
       <button
-        className="search-button"
+        className="search-button l-body"
         onClick={() => handlePlaceSelected(place)}
       >
+        <IconComponent />
         Refine Results
       </button>
     </div>

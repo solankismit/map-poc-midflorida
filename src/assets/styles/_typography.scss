@@ -1,0 +1,99 @@
+// Font family
+$font-family: "Noto Sans", sans-serif;
+
+// Typography styles
+@mixin typography($font-size, $line-height, $font-weight) {
+    font-family: $font-family;
+    font-size: $font-size;
+    line-height: $line-height;
+    font-weight: $font-weight;
+}
+
+// L, M, S Display
+.l-display,h1 {
+    @include typography(64px, 56px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(52px, 48px, 700);
+    }
+}
+
+.m-display,h2 {
+    @include typography(48px, 52px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(40px, 48px, 700);
+    }
+}
+
+.s-display ,h3{
+    @include typography(40px, 48px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(32px, 40px, 700);
+    }
+}
+
+// L, M, S, XS Headline
+.l-headline ,h4{
+    @include typography(32px, 40px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(28px, 36px, 700);
+    }
+}
+
+.m-headline ,h5{
+    @include typography(28px, 36px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(24px, 32px, 700);
+    }
+}
+
+.s-headline ,h6{
+    @include typography(24px, 32px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(20px, 28px, 700);
+    }
+}
+
+.xs-headline {
+    @include typography(18px, 24px, 700);
+
+    @media (max-width: 768px) {
+        @include typography(16px, 20px, 700);
+    }
+}
+
+// L, M, S Body
+.l-body {
+    @include typography(16px, 24px, 400);
+
+}
+
+.m-body {
+    @include typography(14px, 20px, 400);
+
+}
+
+.s-body {
+    @include typography(12px, 16px, 400);
+
+}
+
+.l-label {
+    text-transform: uppercase;
+    @include typography(14px, 20px, 700);
+}
+
+.m-label {
+    text-transform: uppercase;
+    @include typography(12px, 16px, 700);
+}
+
+.s-label {
+    text-transform: uppercase;
+    @include typography(10px, 16px, 700);
+}
