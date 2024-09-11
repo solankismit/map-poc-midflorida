@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./App.css"; // Import your CSS file
 import FindABranchTitle from "./components/Title";
 import CustomMapComponent from "./components/CustomMapComponent";
-import DataWithSearch from "./components/DataWithSearch/DataWithSearch";
 import { LoadScript } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
 import { geocodeAddress } from "./service/geocoding";
+import DataComponent from "./components/DataWithSearch/DataComponent";
+import SearchComponent from "./components/DataWithSearch/SearchComponent";
+import EventBus from "./EventBus";
 
 function App() {
   const navigate = useNavigate();
@@ -14,7 +16,19 @@ function App() {
   const [coordinates, setCoordinates] = useState({
     lat: 0,
     lng: 0,
-  }); // Default to San Francisco, USA
+  });
+
+  const [view, setView] = useState("");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const saveUserLocation = () => {
@@ -57,6 +71,16 @@ function App() {
       }
     }
   };
+
+  useEffect(() => {
+    EventBus.on("viewChanged", (view) => {
+      setView(view);
+    });
+
+    return () => {
+      EventBus.off("viewChanged");
+    };
+  }, []);
   return (
     <div className="App">
       <FindABranchTitle />
@@ -64,17 +88,36 @@ function App() {
       <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
         <div className="content-wrapper">
           <div className="filter-sidebar">
-            <DataWithSearch />
+            <div className="data-with-search">
+              <SearchComponent />
+              {(view == "map" || view == "") && isMobile && (
+                <CustomMapComponent
+                  initialCenter={coordinates}
+                  onMapLoad={() => {
+                    fetchPlaceArgs();
+                  }}
+                  mapContainerStyle={{
+                    height: "390px",
+                    width: "100%",
+                  }}
+                />
+              )}
+              {(view == "list" || view == "") && <DataComponent />}
+            </div>
           </div>
 
-          <div className="map">
+          {!isMobile && (
             <CustomMapComponent
               initialCenter={coordinates}
               onMapLoad={() => {
                 fetchPlaceArgs();
               }}
+              mapContainerStyle={{
+                height: "914px",
+                width: "100%",
+              }}
             />
-          </div>
+          )}
         </div>
       </LoadScript>
     </div>

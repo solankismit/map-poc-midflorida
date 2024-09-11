@@ -3,12 +3,7 @@ import { GoogleMap, Marker, OverlayView } from "@react-google-maps/api";
 import EventBus from "../EventBus";
 import { useData } from "../DataContext";
 
-const mapContainerStyle = {
-  height: "914px",
-  width: "100%",
-};
-
-function CustomMapComponent({ initialCenter, onMapLoad }) {
+function CustomMapComponent({ initialCenter, onMapLoad ,mapContainerStyle}) {
   const [markers, setMarkers] = useState([]);
   const [center, setCenter] = useState(initialCenter ?? { lat: 0, lng: 0 });
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
@@ -113,88 +108,90 @@ function CustomMapComponent({ initialCenter, onMapLoad }) {
   const selectedIcon = createIcon("/selected-marker.png", 40);
 
   return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      center={initialCenter}
-      zoom={center?.lat == center?.lng && center?.lng === 0 ? 2 : 5}
-      onLoad={(map) => {
-        mapRef.current = map;
-        setGoogleMaps(window.google.maps);
-        if (onMapLoad) {
-          onMapLoad();
-        }
-      }}
-      options={{
-        gestureHandling: "greedy", // Optional: Improve user interaction
-        zoomControlOptions: {
-          position: window.google.maps.ControlPosition.RIGHT_CENTER,
-        },
-        mapTypeControlOptions: {
-          position: window.google.maps.ControlPosition.TOP_RIGHT,
-        },
-        animation: true,
-      }}
-    >
-      {markers.map((position, index) => (
-        <>
-          <Marker
-            key={index}
-            icon={
-              position?.id === selectedMarkerId ? selectedIcon : defaultIcon
-            }
-            position={position.location}
-            onClick={() => handleMarkerClick(position.id)}
-          >
-            {position.id === selectedMarkerId && selectedMarkerDetails && (
-              <OverlayView
-                position={position.location}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                getPixelPositionOffset={(width, height) => ({
-                  x: -(width / 2),
-                  y: -height,
-                })}
-              >
-                <div
-                  style={{
-                    background: "white",
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    maxWidth: "200px",
-                    width: "fit-content",
-                    fontFamily: "'Roboto', sans-serif",
-                  }}
+    <div className="map">
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        center={initialCenter}
+        zoom={center?.lat == center?.lng && center?.lng === 0 ? 2 : 5}
+        onLoad={(map) => {
+          mapRef.current = map;
+          setGoogleMaps(window.google.maps);
+          if (onMapLoad) {
+            onMapLoad();
+          }
+        }}
+        options={{
+          gestureHandling: "greedy", // Optional: Improve user interaction
+          zoomControlOptions: {
+            position: window.google.maps.ControlPosition.RIGHT_CENTER,
+          },
+          mapTypeControlOptions: {
+            position: window.google.maps.ControlPosition.TOP_RIGHT,
+          },
+          animation: true,
+        }}
+      >
+        {markers.map((position, index) => (
+          <>
+            <Marker
+              key={index}
+              icon={
+                position?.id === selectedMarkerId ? selectedIcon : defaultIcon
+              }
+              position={position.location}
+              onClick={() => handleMarkerClick(position.id)}
+            >
+              {position.id === selectedMarkerId && selectedMarkerDetails && (
+                <OverlayView
+                  position={position.location}
+                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                  getPixelPositionOffset={(width, height) => ({
+                    x: -(width / 2),
+                    y: -height,
+                  })}
                 >
-                  <h4
+                  <div
                     style={{
-                      margin: "0 0 5px",
-                      fontSize: "16px",
-                      color: "#333",
+                      background: "white",
+                      border: "1px solid #ccc",
+                      padding: "10px",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      maxWidth: "200px",
+                      width: "fit-content",
+                      fontFamily: "'Roboto', sans-serif",
                     }}
                   >
-                    {selectedMarkerDetails.title}
-                  </h4>
-                  <p
-                    style={{
-                      margin: "0 0 5px",
-                      fontSize: "14px",
-                      color: "#666",
-                      textWrap: "nowrap",
-                    }}
-                  >
-                    {selectedMarkerDetails.address}
-                  </p>
-                  <p style={{ margin: "0", fontSize: "14px", color: "#666" }}>
-                    {selectedMarkerDetails.categories.join(", ")}
-                  </p>
-                </div>
-              </OverlayView>
-            )}
-          </Marker>
-        </>
-      ))}
-    </GoogleMap>
+                    <h4
+                      style={{
+                        margin: "0 0 5px",
+                        fontSize: "16px",
+                        color: "#333",
+                      }}
+                    >
+                      {selectedMarkerDetails.title}
+                    </h4>
+                    <p
+                      style={{
+                        margin: "0 0 5px",
+                        fontSize: "14px",
+                        color: "#666",
+                        textWrap: "nowrap",
+                      }}
+                    >
+                      {selectedMarkerDetails.address}
+                    </p>
+                    <p style={{ margin: "0", fontSize: "14px", color: "#666" }}>
+                      {selectedMarkerDetails.categories.join(", ")}
+                    </p>
+                  </div>
+                </OverlayView>
+              )}
+            </Marker>
+          </>
+        ))}
+      </GoogleMap>
+    </div>
   );
 }
 

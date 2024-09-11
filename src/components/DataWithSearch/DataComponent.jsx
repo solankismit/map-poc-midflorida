@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import EventBus from "../../../EventBus";
-import { useData } from "../../../DataContext";
+import EventBus from "../../EventBus";
+import { useData } from "../../DataContext";
 
 export default function DataComponent() {
   const data = useData();
@@ -20,9 +20,11 @@ export default function DataComponent() {
       return;
     }
     setSelectedItemId(id);
+    setOpenCardIndex(data.findIndex((item) => item.id === id));
   };
   useEffect(() => {
     if (selectedItemRef.current) {
+      setOpenCardIndex(data.findIndex((item) => item.id === selectedItemId));
       selectedItemRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -39,7 +41,6 @@ export default function DataComponent() {
 
   return (
     <div className="data-component">
-      <p className="m-body data-numbers">Showing XX Branches and XX ATMs</p>
       <div className="data-items">
         {data.map((item, idx) =>
           DataItem({
@@ -133,15 +134,15 @@ const DataItem = ({
       </div>
       <div className="place">
         <span className="s-body place-distance">2.4 miles |</span>
-        <a className="m-body place-direction">
+        <a href="#" className="m-body place-direction">
           <Icon name={"location"} />
           Get Directions
         </a>
-        <a className="m-body place-details">
+        <a href="#" className="m-body place-details">
           <Icon name={"info"} />
           View Details
         </a>
-        <a className="m-body place-wheel-chair">
+        <a href="#" className="m-body place-wheel-chair">
           <Icon name={"wheelchair"} />
         </a>
       </div>

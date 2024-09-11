@@ -278,6 +278,11 @@ body {
   margin: 0 auto;
   padding: 0 120px;
 }
+@media (max-width: 768px) {
+  .container {
+    padding: 0 24px;
+  }
+}
 
 .l-display, h1 {
   font-family: "Noto Sans", sans-serif;
@@ -449,6 +454,13 @@ body {
   max-width: 914px;
   box-sizing: border-box;
 }
+@media screen and (max-width: 768px) {
+  .map {
+    max-width: 100%;
+    height: 390px;
+    flex: 1;
+  }
+}
 .map .map__loader {
   position: absolute;
   top: 50%;
@@ -494,8 +506,18 @@ body {
   box-sizing: border-box;
   overflow-y: auto;
 }
+@media screen and (max-width: 768px) {
+  .filter-sidebar {
+    overflow-y: visible;
+  }
+}
 .filter-sidebar::-webkit-scrollbar {
   width: 24px;
+}
+@media screen and (max-width: 768px) {
+  .filter-sidebar::-webkit-scrollbar {
+    width: 0;
+  }
 }
 .filter-sidebar::-webkit-scrollbar-track {
   background: #fff;
@@ -508,6 +530,11 @@ body {
 .filter-sidebar .data-with-search {
   padding: 40px 22px 40px 104px;
   height: 100%;
+}
+@media screen and (max-width: 768px) {
+  .filter-sidebar .data-with-search {
+    padding: 12px 6px;
+  }
 }
 .filter-sidebar .data-with-search .search-component {
   display: flex;
@@ -539,8 +566,215 @@ body {
   cursor: pointer;
   font-weight: 700;
 }
-.filter-sidebar .data-with-search .data-component .data-numbers {
+.filter-sidebar .data-with-search .search-component .search-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #D4D5D6;
+    border-radius: 4px;
+    background-color: white;
+    overflow: hidden;
+    flex: none;
+  }
+  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:first-child {
+    border-right: 1px solid #D4D5D6;
+  }
+  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button.active {
+    background-color: #008674;
+  }
+  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:hover {
+    /* Hover background color */
+    color: #042968;
+    /* Hover icon color */
+  }
+  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+.filter-sidebar .data-with-search .search-component .input-wrapper {
+  position: relative;
+  width: 100%;
+}
+.filter-sidebar .data-with-search .search-component .clear-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #0077CB;
+  /* Background color for the circle */
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  /* Text color */
+  padding: 5px;
+  /* Padding to create the circle */
+  margin: 0;
+  border-radius: 50%;
+  /* Make it a circle */
+  width: 24px;
+  /* Fixed width for the circle */
+  height: 24px;
+  /* Fixed height for the circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filter-sidebar .data-with-search .search-component .clear-button:hover {
+  background-color: #005fa3;
+  /* Darker shade for hover state */
+}
+.filter-sidebar .data-with-search .search-component .apply-filters-btn {
+  background-color: #0077CB;
+  /* Primary color */
+  color: white;
+  /* Text color */
+  padding: 10px 20px;
+  /* Padding for the button */
+  border: none;
+  /* Remove default border */
+  border-radius: 4px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  font-size: 16px;
+  /* Font size */
+  font-weight: bold;
+  /* Bold text */
+  text-align: center;
+  /* Center the text */
+  transition: background-color 0.3s ease;
+  /* Smooth transition for background color */
+}
+.filter-sidebar .data-with-search .search-component .apply-filters-btn:hover {
+  background-color: #005fa3;
+  /* Darker shade for hover state */
+}
+.filter-sidebar .data-with-search .search-component .apply-filters-btn:active {
+  background-color: #004a82;
+  /* Even darker shade for active state */
+}
+.filter-sidebar .data-with-search .search-component .apply-filters-btn:focus {
+  outline: none;
+  /* Remove default focus outline */
+  box-shadow: 0 0 0 3px rgba(0, 119, 203, 0.5);
+  /* Custom focus outline */
+}
+.filter-sidebar .data-with-search .search-component .filters {
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  color: #404040;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.filter-sidebar .data-with-search .search-component .filters-select {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories,
+.filter-sidebar .data-with-search .search-component .filters .distance {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories h3,
+.filter-sidebar .data-with-search .search-component .filters .distance h3 {
+  margin-bottom: 8px;
   font-weight: 700;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox],
+.filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+  position: relative;
+  cursor: pointer;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox]:checked,
+.filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked {
+  background-color: #0077CB;
+  border-color: #0077CB;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox]:checked::after,
+.filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.filter-sidebar .data-with-search .search-component .filters .categories label,
+.filter-sidebar .data-with-search .search-component .filters .distance label {
+  color: #404040;
+  cursor: pointer;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories input[type=number],
+.filter-sidebar .data-with-search .search-component .filters .distance input[type=number] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #404040;
+  width: 100%;
+  box-sizing: border-box;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories input[type=number]:focus,
+.filter-sidebar .data-with-search .search-component .filters .distance input[type=number]:focus {
+  border-color: #0077CB;
+  outline: none;
+}
+.filter-sidebar .data-with-search .search-component .filters .categories div {
+  display: flex;
+  align-items: center;
+}
+.filter-sidebar .data-with-search .data-numbers {
+  font-weight: 700;
+  color: #404040;
+  margin-bottom: 16px;
+}
+.filter-sidebar .data-with-search .data-numbers-unq {
+  color: #008674;
+}
+@media screen and (max-width: 768px) {
+  .filter-sidebar .data-with-search .data-component .data-items {
+    height: 47vh;
+    overflow-y: auto;
+  }
 }
 .filter-sidebar .data-with-search .data-component .data-items .data-item {
   display: flex;
