@@ -395,8 +395,7 @@ body {
   border-radius: 5px;
   overflow: hidden;
   position: relative;
-  flex: 2;
-  max-width: 914px;
+  flex: 1;
   box-sizing: border-box;
 }
 @media screen and (max-width: 768px) {
@@ -449,15 +448,22 @@ body {
     margin-left: 0;
   }
 }
+@media (max-width: 768px) {
+  .branch-locator .content-wrapper {
+    max-height: 100%;
+  }
+}
 .branch-locator .filter-sidebar {
   background-color: #ECF6FE;
   flex: 1;
   box-sizing: border-box;
   overflow-y: auto;
+  max-width: 528px;
 }
 @media screen and (max-width: 768px) {
   .branch-locator .filter-sidebar {
     overflow-y: visible;
+    max-width: 100%;
   }
 }
 .branch-locator .filter-sidebar::-webkit-scrollbar {

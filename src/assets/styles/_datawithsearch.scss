@@ -3,9 +3,13 @@
     flex: 1;
     box-sizing: border-box;
     overflow-y: auto;
+    max-width: 528px;
+
+
 
     @media screen and (max-width: 768px) {
         overflow-y: visible;
+        max-width: 100%;
     }
 
     &::-webkit-scrollbar {
