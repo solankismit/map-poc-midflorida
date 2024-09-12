@@ -31,6 +31,9 @@ export default function SearchComponent() {
 
   const [predictions, setPredictions] = useState([]);
   useEffect(() => {
+    EventBus.on("viewChanged", (view) => {
+      setView(view);
+    });
     const urlParams = new URLSearchParams(window.location.search);
     const placeQuery = urlParams.get("place");
     if (placeQuery) {
@@ -39,6 +42,10 @@ export default function SearchComponent() {
           placeQuery.toString().slice(1)
       );
     }
+
+    return () => {
+      EventBus.off("viewChanged");
+    };
   }, []);
   const handlePlaceSelected = (from, place) => {
     console.log("handleplaceSelected from ", from, " :: ", place);
@@ -266,6 +273,35 @@ export default function SearchComponent() {
             )}
           </div>
         </Autocomplete>
+        <div className="search-buttons">
+          <div className="toggle-buttons">
+            <button
+              className={`toggle-button ${view === "list" ? "active" : ""}`}
+              onClick={() => toggleView("list")}
+            >
+              <IconComponent
+                icon={"list"}
+                color={`${view == "list" ? "white" : "#042968"}`}
+              />
+            </button>
+            <button
+              className={`toggle-button ${view === "map" ? "active" : ""}`}
+              onClick={() => toggleView("map")}
+            >
+              <IconComponent
+                icon={"map"}
+                color={`${view == "map" ? "white" : "#042968"}`}
+              />
+            </button>
+          </div>
+          <button
+            className="search-button l-body"
+            onClick={() => setFiltersBar(!filtersBar)}
+          >
+            <IconComponent icon={"filter"} />
+            Refine Results
+          </button>
+        </div>
         {filtersBar && (
           <div className="filters">
             <div className="filters-select">
@@ -301,35 +337,6 @@ export default function SearchComponent() {
             </button>
           </div>
         )}
-        <div className="search-buttons">
-          <div className="toggle-buttons">
-            <button
-              className={`toggle-button ${view === "list" ? "active" : ""}`}
-              onClick={() => toggleView("list")}
-            >
-              <IconComponent
-                icon={"list"}
-                color={`${view == "list" ? "white" : "#042968"}`}
-              />
-            </button>
-            <button
-              className={`toggle-button ${view === "map" ? "active" : ""}`}
-              onClick={() => toggleView("map")}
-            >
-              <IconComponent
-                icon={"map"}
-                color={`${view == "map" ? "white" : "#042968"}`}
-              />
-            </button>
-          </div>
-          <button
-            className="search-button l-body"
-            onClick={() => setFiltersBar(!filtersBar)}
-          >
-            <IconComponent icon={"filter"} />
-            Refine Results
-          </button>
-        </div>
       </div>
       <p className="m-body data-numbers">
         Showing <span className="data-numbers-unq">XX</span> Branches and{" "}

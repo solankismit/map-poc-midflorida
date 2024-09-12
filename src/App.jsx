@@ -23,6 +23,7 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
+      EventBus.emit("viewChanged", "");
       setIsMobile(window.innerWidth <= 768);
     };
 

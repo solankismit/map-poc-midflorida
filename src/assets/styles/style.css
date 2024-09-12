@@ -792,19 +792,20 @@ body {
 .filter-sidebar .data-with-search .data-component .data-items .data-item.selected::before {
   content: unset;
 }
+.filter-sidebar .data-with-search .data-component .data-items .data-item.selected .weather {
+  margin-top: 0;
+}
 .filter-sidebar .data-with-search .data-component .data-items .data-item::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  /* Adjust the height as needed */
+  height: 10px;
   background: linear-gradient(to right, #0077CB, #00A784);
   border-top-left-radius: 8px;
-  /* Match the border radius of the parent */
   border-top-right-radius: 8px;
-  /* Match the border radius of the parent */
+  z-index: 0;
 }
 .filter-sidebar .data-with-search .data-component .data-items .data-item .weather {
   background-color: #B23427;
@@ -813,6 +814,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 3px;
+  z-index: 1;
+  border-radius: 8px 8px 0 0;
 }
 .filter-sidebar .data-with-search .data-component .data-items .data-item .weather-text {
   display: flex;

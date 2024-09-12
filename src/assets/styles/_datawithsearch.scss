@@ -91,8 +91,6 @@
                     @media screen and (max-width: 768px) {
                         display: flex;
                         justify-content: space-between;
-                        // gap: 16px;
-                        ;
                         border: 1px solid #D4D5D6;
                         border-radius: 4px;
                         background-color: white;
@@ -341,6 +339,10 @@
                         &::before {
                             content: unset
                         }
+
+                        .weather {
+                            margin-top: 0;
+                        }
                     }
 
                     &::before {
@@ -349,13 +351,11 @@
                         top: 0;
                         left: 0;
                         right: 0;
-                        height: 4px;
-                        /* Adjust the height as needed */
+                        height: 10px;
                         background: linear-gradient(to right, #0077CB, #00A784);
                         border-top-left-radius: 8px;
-                        /* Match the border radius of the parent */
                         border-top-right-radius: 8px;
-                        /* Match the border radius of the parent */
+                        z-index: 0;
                     }
 
 
@@ -367,6 +367,9 @@
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+                        margin-top: 3px;
+                        z-index: 1;
+                        border-radius: 8px 8px 0 0;
 
                         &-text {
                             display: flex;
