@@ -89,6 +89,9 @@ const DataItem = ({
       <div className="branch-details">
         <div className="categories s-body">
           <p>{item.categories.join(" | ")}</p>
+          <div className="branch-img">
+            <img src="midflorida-img.png" alt="" />
+          </div>
         </div>
         <div className="branch-name ">
           <span>{idx + 1}</span>

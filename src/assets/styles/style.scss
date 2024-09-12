@@ -1,10 +1,17 @@
-@import "_reset";
-@import "_common";
-@import "_typography";
-// @import "_colors";
+body {
+    margin: 0;
+}
 
-@import "_title";
+.branch-locator {
+    background-color: #ECF6FE;
+    @import "_reset";
+    @import "_typography";
 
-@import "_map";
-@import "_thiscomponent";
-@import "_datawithsearch"
+    @import "_common";
+
+    @import "_title";
+
+    @import "_map";
+    @import "_thiscomponent";
+    @import "_datawithsearch";
+}

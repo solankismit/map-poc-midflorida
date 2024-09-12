@@ -351,7 +351,7 @@
                         top: 0;
                         left: 0;
                         right: 0;
-                        height: 10px;
+                        height: 11px;
                         background: linear-gradient(to right, #0077CB, #00A784);
                         border-top-left-radius: 8px;
                         border-top-right-radius: 8px;
@@ -367,7 +367,7 @@
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
-                        margin-top: 3px;
+                        margin-top: 4px;
                         z-index: 1;
                         border-radius: 8px 8px 0 0;
 
@@ -397,6 +397,20 @@
                         .categories {
                             font-weight: 700;
                             color: #404040;
+                            height: 20px;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            .branch-img {
+                                height: 100%;
+
+                                img {
+                                    height: 100%;
+                                    width: auto;
+                                    object-fit: cover;
+                                }
+                            }
                         }
 
                         .branch-name {

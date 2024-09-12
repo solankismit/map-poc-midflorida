@@ -83,11 +83,11 @@ function App() {
     };
   }, []);
   return (
-    <div className="App">
+    <div className="App branch-locator">
       <FindABranchTitle />
 
       <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
-        <div className="content-wrapper">
+        <div className="content-wrapper ">
           <div className="filter-sidebar">
             <div className="data-with-search">
               <SearchComponent />

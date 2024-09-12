@@ -1,19 +1,21 @@
-* {
+body {
+  margin: 0;
+}
+
+.branch-locator {
+  background-color: #ECF6FE;
+  /* Remove default user agent styling */
+}
+.branch-locator * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  font-family: Arial, sans-serif;
-}
-
-/* Remove default user agent styling */
-button,
-input,
-optgroup,
-select,
-textarea {
+.branch-locator button,
+.branch-locator input,
+.branch-locator optgroup,
+.branch-locator select,
+.branch-locator textarea {
   margin: 0;
   padding: 0;
   border: none;
@@ -26,57 +28,46 @@ textarea {
      -moz-appearance: none;
           appearance: none;
 }
-
-button {
+.branch-locator button {
   cursor: pointer;
 }
-
-textarea {
+.branch-locator textarea {
   resize: none;
 }
-
-ul,
-ol {
+.branch-locator ul,
+.branch-locator ol {
   list-style: none;
 }
-
-a {
+.branch-locator a {
   text-decoration: none;
   color: inherit;
 }
-
-table {
+.branch-locator table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-img {
+.branch-locator img {
   max-width: 100%;
   height: auto;
   display: block;
 }
-
-html {
+.branch-locator html {
   line-height: 1.15;
   /* Improve readability */
   -webkit-text-size-adjust: 100%;
   /* Prevent font scaling in landscape */
 }
-
-body {
+.branch-locator body {
   margin: 0;
 }
-
-main {
+.branch-locator main {
   display: block;
 }
-
-h1 {
+.branch-locator h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
-
-hr {
+.branch-locator hr {
   box-sizing: content-box;
   /* 1 */
   height: 0;
@@ -84,15 +75,13 @@ hr {
   overflow: visible;
   /* 2 */
 }
-
-pre {
+.branch-locator pre {
   font-family: monospace, monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
 }
-
-abbr[title] {
+.branch-locator abbr[title] {
   border-bottom: none;
   /* 1 */
   text-decoration: underline;
@@ -101,45 +90,38 @@ abbr[title] {
           text-decoration: underline dotted;
   /* 2 */
 }
-
-b,
-strong {
+.branch-locator b,
+.branch-locator strong {
   font-weight: bolder;
 }
-
-code,
-kbd,
-samp {
+.branch-locator code,
+.branch-locator kbd,
+.branch-locator samp {
   font-family: monospace, monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
 }
-
-small {
+.branch-locator small {
   font-size: 80%;
 }
-
-sub,
-sup {
+.branch-locator sub,
+.branch-locator sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
-
-sub {
+.branch-locator sub {
   bottom: -0.25em;
 }
-
-sup {
+.branch-locator sup {
   top: -0.5em;
 }
-
-button,
-input,
-select,
-textarea {
+.branch-locator button,
+.branch-locator input,
+.branch-locator select,
+.branch-locator textarea {
   font-family: inherit;
   /* 1 */
   font-size: 100%;
@@ -149,46 +131,39 @@ textarea {
   margin: 0;
   /* 2 */
 }
-
-button,
-input {
+.branch-locator button,
+.branch-locator input {
   /* 1 */
   overflow: visible;
 }
-
-button,
-select {
+.branch-locator button,
+.branch-locator select {
   /* 1 */
   text-transform: none;
 }
-
-button,
-[type=button],
-[type=reset],
-[type=submit] {
+.branch-locator button,
+.branch-locator [type=button],
+.branch-locator [type=reset],
+.branch-locator [type=submit] {
   -webkit-appearance: button;
 }
-
-button::-moz-focus-inner,
-[type=button]::-moz-focus-inner,
-[type=reset]::-moz-focus-inner,
-[type=submit]::-moz-focus-inner {
+.branch-locator button::-moz-focus-inner,
+.branch-locator [type=button]::-moz-focus-inner,
+.branch-locator [type=reset]::-moz-focus-inner,
+.branch-locator [type=submit]::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
-
-button:-moz-focusring,
-[type=button]:-moz-focusring,
-[type=reset]:-moz-focusring,
-[type=submit]:-moz-focusring {
+.branch-locator button:-moz-focusring,
+.branch-locator [type=button]:-moz-focusring,
+.branch-locator [type=reset]:-moz-focusring,
+.branch-locator [type=submit]:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
-
-fieldset {
+.branch-locator fieldset {
   padding: 0.35em 0.75em 0.625em;
 }
-
-legend {
+.branch-locator legend {
   box-sizing: border-box;
   /* 1 */
   color: inherit;
@@ -200,251 +175,221 @@ legend {
   white-space: normal;
   /* 1 */
 }
-
-progress {
+.branch-locator progress {
   vertical-align: baseline;
 }
-
-textarea {
+.branch-locator textarea {
   overflow: auto;
 }
-
-[type=checkbox],
-[type=radio] {
+.branch-locator [type=checkbox],
+.branch-locator [type=radio] {
   box-sizing: border-box;
   /* 1 */
   padding: 0;
   /* 2 */
 }
-
-[type=number]::-webkit-inner-spin-button,
-[type=number]::-webkit-outer-spin-button {
+.branch-locator [type=number]::-webkit-inner-spin-button,
+.branch-locator [type=number]::-webkit-outer-spin-button {
   height: auto;
 }
-
-[type=search] {
+.branch-locator [type=search] {
   -webkit-appearance: textfield;
   /* 1 */
   outline-offset: -2px;
   /* 2 */
 }
-
-[type=search]::-webkit-search-decoration {
+.branch-locator [type=search]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
-
-::-webkit-file-upload-button {
+.branch-locator ::-webkit-file-upload-button {
   -webkit-appearance: button;
   /* 1 */
   font: inherit;
   /* 2 */
 }
-
-details {
+.branch-locator details {
   display: block;
 }
-
-summary {
+.branch-locator summary {
   display: list-item;
 }
-
-template {
+.branch-locator template {
   display: none;
 }
-
-[hidden] {
+.branch-locator [hidden] {
   display: none;
 }
-
-p {
+.branch-locator p {
   margin: 0;
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.branch-locator h1,
+.branch-locator h2,
+.branch-locator h3,
+.branch-locator h4,
+.branch-locator h5,
+.branch-locator h6 {
   margin: 0;
 }
-
-body {
-  font-family: "Noto Sans", sans-serif;
-}
-
-.container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 120px;
-}
-@media (max-width: 768px) {
-  .container {
-    padding: 0 24px;
-  }
-}
-
-.l-display, h1 {
+.branch-locator .l-display, .branch-locator h1 {
   font-family: "Noto Sans", sans-serif;
   font-size: 64px;
   line-height: 56px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .l-display, h1 {
+  .branch-locator .l-display, .branch-locator h1 {
     font-family: "Noto Sans", sans-serif;
     font-size: 52px;
     line-height: 48px;
     font-weight: 700;
   }
 }
-
-.m-display, h2 {
+.branch-locator .m-display, .branch-locator h2 {
   font-family: "Noto Sans", sans-serif;
   font-size: 48px;
   line-height: 52px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .m-display, h2 {
+  .branch-locator .m-display, .branch-locator h2 {
     font-family: "Noto Sans", sans-serif;
     font-size: 40px;
     line-height: 48px;
     font-weight: 700;
   }
 }
-
-.s-display, h3 {
+.branch-locator .s-display, .branch-locator h3 {
   font-family: "Noto Sans", sans-serif;
   font-size: 40px;
   line-height: 48px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .s-display, h3 {
+  .branch-locator .s-display, .branch-locator h3 {
     font-family: "Noto Sans", sans-serif;
     font-size: 32px;
     line-height: 40px;
     font-weight: 700;
   }
 }
-
-.l-headline, h4 {
+.branch-locator .l-headline, .branch-locator h4 {
   font-family: "Noto Sans", sans-serif;
   font-size: 32px;
   line-height: 40px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .l-headline, h4 {
+  .branch-locator .l-headline, .branch-locator h4 {
     font-family: "Noto Sans", sans-serif;
     font-size: 28px;
     line-height: 36px;
     font-weight: 700;
   }
 }
-
-.m-headline, h5 {
+.branch-locator .m-headline, .branch-locator h5 {
   font-family: "Noto Sans", sans-serif;
   font-size: 28px;
   line-height: 36px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .m-headline, h5 {
+  .branch-locator .m-headline, .branch-locator h5 {
     font-family: "Noto Sans", sans-serif;
     font-size: 24px;
     line-height: 32px;
     font-weight: 700;
   }
 }
-
-.s-headline, h6 {
+.branch-locator .s-headline, .branch-locator h6 {
   font-family: "Noto Sans", sans-serif;
   font-size: 24px;
   line-height: 32px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .s-headline, h6 {
+  .branch-locator .s-headline, .branch-locator h6 {
     font-family: "Noto Sans", sans-serif;
     font-size: 20px;
     line-height: 28px;
     font-weight: 700;
   }
 }
-
-.xs-headline {
+.branch-locator .xs-headline {
   font-family: "Noto Sans", sans-serif;
   font-size: 18px;
   line-height: 24px;
   font-weight: 700;
 }
 @media (max-width: 768px) {
-  .xs-headline {
+  .branch-locator .xs-headline {
     font-family: "Noto Sans", sans-serif;
     font-size: 16px;
     line-height: 20px;
     font-weight: 700;
   }
 }
-
-.l-body {
+.branch-locator .l-body {
   font-family: "Noto Sans", sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 }
-
-.m-body {
+.branch-locator .m-body {
   font-family: "Noto Sans", sans-serif;
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
 }
-
-.s-body {
+.branch-locator .s-body {
   font-family: "Noto Sans", sans-serif;
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
 }
-
-.l-label {
+.branch-locator .l-label {
   text-transform: uppercase;
   font-family: "Noto Sans", sans-serif;
   font-size: 14px;
   line-height: 20px;
   font-weight: 700;
 }
-
-.m-label {
+.branch-locator .m-label {
   text-transform: uppercase;
   font-family: "Noto Sans", sans-serif;
   font-size: 12px;
   line-height: 16px;
   font-weight: 700;
 }
-
-.s-label {
+.branch-locator .s-label {
   text-transform: uppercase;
   font-family: "Noto Sans", sans-serif;
   font-size: 10px;
   line-height: 16px;
   font-weight: 700;
 }
-
-.title-container {
+.branch-locator * {
+  font-family: "Noto Sans", sans-serif;
+}
+.branch-locator .container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 120px;
+}
+@media (max-width: 768px) {
+  .branch-locator .container {
+    padding: 0 24px;
+  }
+}
+.branch-locator .title-container {
   color: white;
   background: linear-gradient(90deg, rgb(0, 81, 138) 0%, rgb(0, 90, 156) 100%);
   padding-top: 64px;
   padding-bottom: 64px;
 }
-.title-container .title {
+.branch-locator .title-container .title {
   margin-bottom: 16px;
 }
-
-.map {
+.branch-locator .map {
   width: 100%;
   height: 100%;
   border-radius: 5px;
@@ -455,28 +400,28 @@ body {
   box-sizing: border-box;
 }
 @media screen and (max-width: 768px) {
-  .map {
+  .branch-locator .map {
     max-width: 100%;
     height: 390px;
     flex: 1;
   }
 }
-.map .map__loader {
+.branch-locator .map .map__loader {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.map .selected-marker {
+.branch-locator .map .selected-marker {
   color: blue;
 }
-.map .info-window {
+.branch-locator .map .info-window {
   padding: 0;
   margin: 0;
   background: transparent;
   border: none;
 }
-.map .selected-marker {
+.branch-locator .map .selected-marker {
   background: white;
   padding: 10px;
   border-radius: 5px;
@@ -484,75 +429,79 @@ body {
   max-width: 200px;
   /* Adjust the width as needed */
 }
-.map .selected-marker h4 {
+.branch-locator .map .selected-marker h4 {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
 }
-.map .selected-marker p {
+.branch-locator .map .selected-marker p {
   margin: 5px 0;
   font-size: 14px;
 }
-
-.content-wrapper {
+.branch-locator .content-wrapper {
   height: 100%;
   max-height: 914px;
   display: flex;
+  margin-left: calc((100vw - 1440px) / 2);
 }
-
-.filter-sidebar {
+@media (max-width: 1440px) {
+  .branch-locator .content-wrapper {
+    margin-left: 0;
+  }
+}
+.branch-locator .filter-sidebar {
   background-color: #ECF6FE;
   flex: 1;
   box-sizing: border-box;
   overflow-y: auto;
 }
 @media screen and (max-width: 768px) {
-  .filter-sidebar {
+  .branch-locator .filter-sidebar {
     overflow-y: visible;
   }
 }
-.filter-sidebar::-webkit-scrollbar {
+.branch-locator .filter-sidebar::-webkit-scrollbar {
   width: 24px;
 }
 @media screen and (max-width: 768px) {
-  .filter-sidebar::-webkit-scrollbar {
+  .branch-locator .filter-sidebar::-webkit-scrollbar {
     width: 0;
   }
 }
-.filter-sidebar::-webkit-scrollbar-track {
+.branch-locator .filter-sidebar::-webkit-scrollbar-track {
   background: #fff;
 }
-.filter-sidebar::-webkit-scrollbar-thumb {
+.branch-locator .filter-sidebar::-webkit-scrollbar-thumb {
   border-radius: 40px;
   background-color: #042968;
   border: 8px solid #fff;
 }
-.filter-sidebar .data-with-search {
+.branch-locator .filter-sidebar .data-with-search {
   padding: 40px 22px 40px 104px;
   height: 100%;
 }
 @media screen and (max-width: 768px) {
-  .filter-sidebar .data-with-search {
+  .branch-locator .filter-sidebar .data-with-search {
     padding: 12px 6px;
   }
 }
-.filter-sidebar .data-with-search .search-component {
+.branch-locator .filter-sidebar .data-with-search .search-component {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.filter-sidebar .data-with-search .search-component::after {
+.branch-locator .filter-sidebar .data-with-search .search-component::after {
   content: "";
   width: 100%;
   height: 1px;
   background-color: #D4D5D6;
   margin-bottom: 16px;
 }
-.filter-sidebar .data-with-search .search-component h6 {
+.branch-locator .filter-sidebar .data-with-search .search-component h6 {
   color: #404040;
 }
-.filter-sidebar .data-with-search .search-component .search-button,
-.filter-sidebar .data-with-search .search-component .search-input {
+.branch-locator .filter-sidebar .data-with-search .search-component .search-button,
+.branch-locator .filter-sidebar .data-with-search .search-component .search-input {
   background-color: white;
   width: 100%;
   border: 1px solid #D4D5D6;
@@ -560,22 +509,22 @@ body {
   padding: 12px 8px;
   color: #042968;
 }
-.filter-sidebar .data-with-search .search-component .search-button {
+.branch-locator .filter-sidebar .data-with-search .search-component .search-button {
   display: flex;
   justify-content: center;
   cursor: pointer;
   font-weight: 700;
 }
-.filter-sidebar .data-with-search .search-component .search-buttons {
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons {
   display: flex;
   justify-content: space-between;
   gap: 16px;
 }
-.filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
   display: none;
 }
 @media screen and (max-width: 768px) {
-  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
     display: flex;
     justify-content: space-between;
     border: 1px solid #D4D5D6;
@@ -584,7 +533,7 @@ body {
     overflow: hidden;
     flex: none;
   }
-  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button {
     background: none;
     border: none;
     cursor: pointer;
@@ -594,27 +543,27 @@ body {
     justify-content: center;
     transition: background-color 0.3s ease;
   }
-  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:first-child {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:first-child {
     border-right: 1px solid #D4D5D6;
   }
-  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button.active {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button.active {
     background-color: #008674;
   }
-  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:hover {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:hover {
     /* Hover background color */
     color: #042968;
     /* Hover icon color */
   }
-  .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button svg {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button svg {
     width: 24px;
     height: 24px;
   }
 }
-.filter-sidebar .data-with-search .search-component .input-wrapper {
+.branch-locator .filter-sidebar .data-with-search .search-component .input-wrapper {
   position: relative;
   width: 100%;
 }
-.filter-sidebar .data-with-search .search-component .clear-button {
+.branch-locator .filter-sidebar .data-with-search .search-component .clear-button {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -639,11 +588,11 @@ body {
   align-items: center;
   justify-content: center;
 }
-.filter-sidebar .data-with-search .search-component .clear-button:hover {
+.branch-locator .filter-sidebar .data-with-search .search-component .clear-button:hover {
   background-color: #005fa3;
   /* Darker shade for hover state */
 }
-.filter-sidebar .data-with-search .search-component .apply-filters-btn {
+.branch-locator .filter-sidebar .data-with-search .search-component .apply-filters-btn {
   background-color: #0077CB;
   /* Primary color */
   color: white;
@@ -665,21 +614,21 @@ body {
   transition: background-color 0.3s ease;
   /* Smooth transition for background color */
 }
-.filter-sidebar .data-with-search .search-component .apply-filters-btn:hover {
+.branch-locator .filter-sidebar .data-with-search .search-component .apply-filters-btn:hover {
   background-color: #005fa3;
   /* Darker shade for hover state */
 }
-.filter-sidebar .data-with-search .search-component .apply-filters-btn:active {
+.branch-locator .filter-sidebar .data-with-search .search-component .apply-filters-btn:active {
   background-color: #004a82;
   /* Even darker shade for active state */
 }
-.filter-sidebar .data-with-search .search-component .apply-filters-btn:focus {
+.branch-locator .filter-sidebar .data-with-search .search-component .apply-filters-btn:focus {
   outline: none;
   /* Remove default focus outline */
   box-shadow: 0 0 0 3px rgba(0, 119, 203, 0.5);
   /* Custom focus outline */
 }
-.filter-sidebar .data-with-search .search-component .filters {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters {
   padding: 16px;
   background-color: white;
   border-radius: 8px;
@@ -690,24 +639,24 @@ body {
   flex-direction: column;
   gap: 16px;
 }
-.filter-sidebar .data-with-search .search-component .filters-select {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters-select {
   display: flex;
   flex-direction: row;
   gap: 16px;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories,
-.filter-sidebar .data-with-search .search-component .filters .distance {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories,
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories h3,
-.filter-sidebar .data-with-search .search-component .filters .distance h3 {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories h3,
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance h3 {
   margin-bottom: 8px;
   font-weight: 700;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox],
-.filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox] {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox],
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -719,13 +668,13 @@ body {
   position: relative;
   cursor: pointer;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox]:checked,
-.filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox]:checked,
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked {
   background-color: #0077CB;
   border-color: #0077CB;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox]:checked::after,
-.filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked::after {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox]:checked::after,
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked::after {
   content: "";
   position: absolute;
   top: 1px;
@@ -736,13 +685,13 @@ body {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
-.filter-sidebar .data-with-search .search-component .filters .categories label,
-.filter-sidebar .data-with-search .search-component .filters .distance label {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories label,
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance label {
   color: #404040;
   cursor: pointer;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories input[type=number],
-.filter-sidebar .data-with-search .search-component .filters .distance input[type=number] {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories input[type=number],
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=number] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -753,30 +702,30 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories input[type=number]:focus,
-.filter-sidebar .data-with-search .search-component .filters .distance input[type=number]:focus {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories input[type=number]:focus,
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=number]:focus {
   border-color: #0077CB;
   outline: none;
 }
-.filter-sidebar .data-with-search .search-component .filters .categories div {
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories div {
   display: flex;
   align-items: center;
 }
-.filter-sidebar .data-with-search .data-numbers {
+.branch-locator .filter-sidebar .data-with-search .data-numbers {
   font-weight: 700;
   color: #404040;
   margin-bottom: 16px;
 }
-.filter-sidebar .data-with-search .data-numbers-unq {
+.branch-locator .filter-sidebar .data-with-search .data-numbers-unq {
   color: #008674;
 }
 @media screen and (max-width: 768px) {
-  .filter-sidebar .data-with-search .data-component .data-items {
+  .branch-locator .filter-sidebar .data-with-search .data-component .data-items {
     height: 47vh;
     overflow-y: auto;
   }
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -789,67 +738,80 @@ body {
   overflow: hidden;
   /* Ensure the border radius is applied correctly */
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item.selected::before {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item.selected::before {
   content: unset;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item.selected .weather {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item.selected .weather {
   margin-top: 0;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item::before {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 11px;
   background: linear-gradient(to right, #0077CB, #00A784);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   z-index: 0;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .weather {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .weather {
   background-color: #B23427;
   padding: 8px 16px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 3px;
+  margin-top: 4px;
   z-index: 1;
   border-radius: 8px 8px 0 0;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .weather-text {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .weather-text {
   display: flex;
   gap: 4px;
   align-items: center;
   font-weight: 700;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .weather-link {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .weather-link {
   display: flex;
   gap: 4px;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .weather-link img {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .weather-link img {
   -o-object-fit: contain;
      object-fit: contain;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 0 16px;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .categories {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .categories {
   font-weight: 700;
   color: #404040;
+  height: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .branch-name {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .categories .branch-img {
+  height: 100%;
+}
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .categories .branch-img img {
+  height: 100%;
+  width: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .branch-name {
   font-weight: 700;
   color: #042968;
   display: flex;
   font-weight: 700;
   gap: 8px;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .branch-name span {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .branch-name span {
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -860,13 +822,13 @@ body {
   text-align: center;
   font-weight: bold;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .branch-name p {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .branch-name p {
   font-weight: 700;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .address {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .address {
   color: #404040;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .card {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .card {
   cursor: pointer;
   padding: 16px;
   border-radius: 8px;
@@ -876,55 +838,55 @@ body {
   margin: 0 8px;
   padding: 8px 16px;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown {
   font-weight: 700;
   color: #042968;
   display: flex;
   justify-content: space-between;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown .icon {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown .icon {
   transform: rotate(180deg);
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown .icon.opened {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown .icon.opened {
   transform: rotate(0deg);
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown-content {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown-content {
   margin-top: 16px;
   display: flex;
   justify-content: space-between;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .features,
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .features,
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours {
   width: 48%;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .features h3,
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours h3 {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .features h3,
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours h3 {
   margin-bottom: 8px;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours ul {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours ul {
   list-style-type: none;
   padding: 0;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .features ul {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .features ul {
   list-style: disc;
   list-style-position: inside;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .features li,
-.filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours li {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .features li,
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours li {
   margin-bottom: 4px;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .place {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .place {
   border-top: 1px solid #D4D5D6;
   padding: 8px 16px;
   display: flex;
   gap: 8px;
   align-items: center;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .place-distance {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .place-distance {
   position: relative;
   font-weight: 700;
 }
-.filter-sidebar .data-with-search .data-component .data-items .data-item .place-direction, .filter-sidebar .data-with-search .data-component .data-items .data-item .place-details {
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .place-direction, .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .place-details {
   display: flex;
   gap: 4px;
   align-items: center;
