@@ -93,7 +93,7 @@ const DataItem = ({
       className={`data-item  ${selectedItemId === item.id ? "selected" : ""}`}
       onClick={onClick}
     >
-      <div className="weather ">
+      {/* <div className="weather ">
         <span className="weather-text s-body">
           <Icon name="thunderstorm" />
           Storm Hour Updates - Open until 2PM
@@ -101,7 +101,25 @@ const DataItem = ({
         <a href="#" className="weather-link m-body">
           <span>Read More</span> <Icon name="arrow-white" />
         </a>
-      </div>
+      </div> */}
+      {JSON.parse(item.locationCardContent).locationAlert.alertMessage && (
+        <div className="weather ">
+          <span className="weather-text s-body">
+            <Icon name="thunderstorm" />
+            {JSON.parse(item.locationCardContent).locationAlert.alertMessage}
+          </span>
+          {JSON.parse(item.locationCardContent).locationAlert.alertLink && (
+            <a
+              href={
+                JSON.parse(item.locationCardContent).locationAlert.alertLink
+              }
+              className="weather-link m-body"
+            >
+              <span>Read More</span> <Icon name="arrow-white" />
+            </a>
+          )}
+        </div>
+      )}
       <div className="branch-details">
         <div className="categories s-body">
           <p>{item.locationTypeList.join(" | ")}</p>
@@ -165,8 +183,8 @@ const DataItem = ({
         {searchedLatitude && searchedLongitude && (
           <span className="s-body place-distance">
             {calculateDistance(
-              searchedLatitude || userLocation.latitude,
-              searchedLongitude || userLocation.longitude,
+              searchedLatitude,
+              searchedLongitude,
               item.latitude,
               item.longitude
             )}{" "}
