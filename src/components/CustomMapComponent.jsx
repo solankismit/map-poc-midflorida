@@ -3,7 +3,7 @@ import { GoogleMap, Marker, OverlayView } from "@react-google-maps/api";
 import EventBus from "../EventBus";
 import { useData } from "../DataContext";
 
-function CustomMapComponent({ initialCenter, onMapLoad ,mapContainerStyle}) {
+function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
   const [markers, setMarkers] = useState([]);
   const [center, setCenter] = useState(initialCenter ?? { lat: 0, lng: 0 });
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
@@ -18,13 +18,13 @@ function CustomMapComponent({ initialCenter, onMapLoad ,mapContainerStyle}) {
     const newMarkers = data.map((item) => ({
       id: item.id,
       location: {
-        lat: parseFloat(item.location[0]),
-        lng: parseFloat(item.location[1]),
+        lat: parseFloat(item.latitude), // Use 'latitude' and 'longitude' from data
+        lng: parseFloat(item.longitude),
       },
       details: {
-        title: item.title,
+        title: item.locationName, // Use 'locationName' for title
         address: item.address,
-        categories: item.categories,
+        categories: item.locationTypeList, // Use 'locationTypeList' for categories
       },
     }));
     setMarkers(newMarkers);

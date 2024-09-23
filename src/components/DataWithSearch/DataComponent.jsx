@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import EventBus from "../../EventBus";
 import { useData } from "../../DataContext";
+import { useSearchParams } from "react-router-dom";
+import { calculateDistance } from "../../utils";
 
 export default function DataComponent() {
   const data = useData();
@@ -9,6 +11,16 @@ export default function DataComponent() {
 
   const [openCardIndex, setOpenCardIndex] = useState(null);
 
+  const [searchParams] = useSearchParams();
+  const userLocation = JSON.parse(localStorage.getItem("userLocation"));
+  const searchedLatitude =
+    searchParams.has("lat") && searchParams.has("lng")
+      ? parseFloat(searchParams.get("lat"))
+      : userLocation?.lat ?? null;
+  const searchedLongitude =
+    searchParams.has("lat") && searchParams.has("lng")
+      ? parseFloat(searchParams.get("lng"))
+      : userLocation?.lng ?? null;
   const handleItemClick = (id) => {
     setSelectedItemId(id);
     EventBus.emit("listItemClicked", id);
@@ -53,6 +65,8 @@ export default function DataComponent() {
               handleItemClick(item.id);
               setOpenCardIndex(openCardIndex === idx ? null : idx);
             },
+            searchedLatitude,
+            searchedLongitude,
           })
         )}
       </div>
@@ -69,6 +83,8 @@ const DataItem = ({
   selectedItemRef,
   openCardIndex,
   onClick,
+  searchedLatitude,
+  searchedLongitude,
 }) => {
   return (
     <div
@@ -88,14 +104,14 @@ const DataItem = ({
       </div>
       <div className="branch-details">
         <div className="categories s-body">
-          <p>{item.categories.join(" | ")}</p>
+          <p>{item.locationTypeList.join(" | ")}</p>
           <div className="branch-img">
             <img src="midflorida-img.png" alt="" />
           </div>
         </div>
         <div className="branch-name ">
           <span>{idx + 1}</span>
-          <p className="branch-name--title l-body">{item.title}</p>
+          <p className="branch-name--title l-body">{item.locationName}</p>
         </div>
 
         <p className="address m-body">
@@ -104,9 +120,7 @@ const DataItem = ({
       </div>
       <div className="card">
         <div className="dropdown s-body">
-          <span>
-            {openCardIndex === idx ? "Less Information" : "Branch Hours"}
-          </span>
+          <span>{openCardIndex === idx ? "Hide" : "Branch Hours"}</span>
           <Icon
             name={`arrow-up`}
             className={`icon ${openCardIndex === idx ? "opened" : ""}`}
@@ -114,40 +128,67 @@ const DataItem = ({
         </div>
         {openCardIndex === idx && (
           <div className="dropdown-content">
-            <div className="features">
-              <h3 className="s-label">Features</h3>
-              <ul className="m-body">
-                <li>7-7 Drive-Thru Service</li>
-                <li>Safe Deposit Boxes</li>
-                <li>Night Drop</li>
-                <li>Business Services Available</li>
+            <div className="branch-hours">
+              <h3 className="s-label">Lobby</h3>
+              <ul className="s-body">
+                {JSON.parse(item.locationCardContent).lobbyHours.map((hour) => (
+                  <li
+                    key={hour.dayOfWeek}
+                  >{`${hour.dayOfWeek}: ${hour.hours}`}</li>
+                ))}
               </ul>
             </div>
             <div className="branch-hours">
-              <h3 className="s-label">Branch Hours</h3>
-              <ul className="m-body">
-                <li>Mon - Fri: 7AM - 7PM</li>
-                <li>Sat: 8:30AM - 1:30PM</li>
-                <li>Sun: Closed</li>
-                <li>ATM open 24 hours</li>
+              <h3 className="s-label">Drive-Thru</h3>
+              <ul className="s-body">
+                {JSON.parse(item.locationCardContent).drivethruHours.map(
+                  (hour) => (
+                    <li
+                      key={hour.dayOfWeek}
+                    >{`${hour.dayOfWeek}: ${hour.hours}`}</li>
+                  )
+                )}
+              </ul>
+            </div>
+            <div className="features">
+              <h3 className="s-label">Features</h3>
+              <ul className="s-body">
+                {item.locationFeatureList.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
               </ul>
             </div>
           </div>
         )}
       </div>
       <div className="place">
-        <span className="s-body place-distance">2.4 miles |</span>
-        <a href="#" className="m-body place-direction">
+        {searchedLatitude && searchedLongitude && (
+          <span className="s-body place-distance">
+            {calculateDistance(
+              searchedLatitude || userLocation.latitude,
+              searchedLongitude || userLocation.longitude,
+              item.latitude,
+              item.longitude
+            )}{" "}
+            miles |
+          </span>
+        )}
+        <a
+          href={`http://maps.google.com/maps?q=${item.latitude},${item.longitude}`}
+          className="m-body place-direction"
+        >
           <Icon name={"location"} />
           Get Directions
         </a>
-        <a href="#" className="m-body place-details">
+        <a href={item.url} className="m-body place-details">
           <Icon name={"info"} />
           View Details
         </a>
-        <a href="#" className="m-body place-wheel-chair">
-          <Icon name={"wheelchair"} />
-        </a>
+        {item.isAccessible && (
+          <a className="m-body place-wheel-chair">
+            <Icon name={"wheelchair"} />
+          </a>
+        )}
       </div>
     </div>
   );

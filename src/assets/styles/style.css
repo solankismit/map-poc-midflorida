@@ -859,11 +859,8 @@ body {
 .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .dropdown-content {
   margin-top: 16px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-}
-.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .features,
-.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours {
-  width: 48%;
 }
 .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .features h3,
 .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-hours h3 {

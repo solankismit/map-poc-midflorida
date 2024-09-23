@@ -480,13 +480,10 @@
                     .dropdown-content {
                         margin-top: 16px;
                         display: flex;
+                        flex-direction: column;
                         justify-content: space-between;
                     }
 
-                    .features,
-                    .branch-hours {
-                        width: 48%;
-                    }
 
                     .features h3,
                     .branch-hours h3 {
