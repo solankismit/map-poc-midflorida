@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import { calculateDistance } from "../utils";
 
 function useQuery() {
   const location = useLocation();
@@ -21,7 +22,46 @@ function useFetchData() {
         }
         return response.json();
       })
-      .then((fetchedData) => setData(fetchedData ? fetchedData : []))
+      .then((fetchedData) => {
+        const userLocation = JSON.parse(localStorage.getItem("userLocation"));
+        const { lat: userLat, lng: userLng } = userLocation || { lat: null, lng: null };
+
+        // Determine the location to use for distance calculation
+        let locationToUse = null;
+        if (query.get("lat") && query.get("lng")) {
+          locationToUse = {
+            lat: parseFloat(query.get("lat")),
+            lng: parseFloat(query.get("lng")),
+          };
+        } else if (userLat && userLng) {
+          locationToUse = {
+            lat: parseFloat(userLat),
+            lng: parseFloat(userLng),
+          };
+        }
+
+        // Calculate distance and update data
+        const updatedData = fetchedData
+          ? fetchedData.map((item) => ({
+              ...item,
+              distance: locationToUse
+                ? calculateDistance(
+                    locationToUse.lat,
+                    locationToUse.lng,
+                    item.latitude,
+                    item.longitude
+                  )
+                : null,
+            }))
+          : [];
+
+        // Sort data by distance
+        const sortedData = updatedData.sort(
+          (a, b) => (a.distance || Infinity) - (b.distance || Infinity)
+        );
+
+        setData(sortedData);
+      })
       .catch((error) => {
         if (error.name === "AbortError") {
           console.log("Fetch aborted");

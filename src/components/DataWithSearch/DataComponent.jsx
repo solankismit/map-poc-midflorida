@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import EventBus from "../../EventBus";
 import { useData } from "../../DataContext";
-import { useSearchParams } from "react-router-dom";
-import { calculateDistance } from "../../utils";
 
 export default function DataComponent() {
   const data = useData();
@@ -11,16 +9,6 @@ export default function DataComponent() {
 
   const [openCardIndex, setOpenCardIndex] = useState(null);
 
-  const [searchParams] = useSearchParams();
-  const userLocation = JSON.parse(localStorage.getItem("userLocation"));
-  const searchedLatitude =
-    searchParams.has("lat") && searchParams.has("lng")
-      ? parseFloat(searchParams.get("lat"))
-      : userLocation?.lat ?? null;
-  const searchedLongitude =
-    searchParams.has("lat") && searchParams.has("lng")
-      ? parseFloat(searchParams.get("lng"))
-      : userLocation?.lng ?? null;
   const handleItemClick = (id) => {
     setSelectedItemId(id);
     EventBus.emit("listItemClicked", id);
@@ -65,8 +53,6 @@ export default function DataComponent() {
               handleItemClick(item.id);
               setOpenCardIndex(openCardIndex === idx ? null : idx);
             },
-            searchedLatitude,
-            searchedLongitude,
           })
         )}
       </div>
@@ -83,8 +69,6 @@ const DataItem = ({
   selectedItemRef,
   openCardIndex,
   onClick,
-  searchedLatitude,
-  searchedLongitude,
 }) => {
   return (
     <div
@@ -180,17 +164,7 @@ const DataItem = ({
         )}
       </div>
       <div className="place">
-        {searchedLatitude && searchedLongitude && (
-          <span className="s-body place-distance">
-            {calculateDistance(
-              searchedLatitude,
-              searchedLongitude,
-              item.latitude,
-              item.longitude
-            )}{" "}
-            miles |
-          </span>
-        )}
+        <span className="s-body place-distance">{item.distance} miles |</span>
         <a
           href={`http://maps.google.com/maps?q=${item.latitude},${item.longitude}`}
           className="m-body place-direction"
