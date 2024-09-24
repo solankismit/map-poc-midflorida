@@ -3,7 +3,7 @@ import EventBus from "../../EventBus";
 import { useData } from "../../DataContext";
 
 export default function DataComponent() {
-  const data = useData();
+  const { data } = useData();
   const [selectedItemId, setSelectedItemId] = useState(null);
   const selectedItemRef = useRef(null);
 
@@ -164,7 +164,9 @@ const DataItem = ({
         )}
       </div>
       <div className="place">
-        <span className="s-body place-distance">{item.distance} miles |</span>
+        {item.distance && (
+          <span className="s-body place-distance">{item.distance} miles |</span>
+        )}
         <a
           href={`http://maps.google.com/maps?q=${item.latitude},${item.longitude}`}
           className="m-body place-direction"

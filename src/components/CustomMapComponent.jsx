@@ -12,7 +12,7 @@ function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
   const markersRef = useRef([]);
   const mapRef = useRef(null);
 
-  const data = useData();
+  const { data } = useData();
   // Extract markers from data
   useEffect(() => {
     const newMarkers = data.map((item) => ({

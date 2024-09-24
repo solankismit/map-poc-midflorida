@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import EventBus from "../../EventBus";
 import { useNavigate } from "react-router-dom";
+import { useData } from "../../DataContext";
 
 const categories = ["ATM", "Bank", "Credit Union"];
 
@@ -9,6 +10,7 @@ export default function SearchComponent() {
   const [filtersBar, setFiltersBar] = useState(false);
   const [view, setView] = useState(""); // 'list' or 'map'
 
+  const { branchCount, atmCount } = useData();
   const toggleView = (selectedView) => {
     if (selectedView === view) {
       setView("");
@@ -339,8 +341,8 @@ export default function SearchComponent() {
         )}
       </div>
       <p className="m-body data-numbers">
-        Showing <span className="data-numbers-unq">XX</span> Branches and{" "}
-        <span className="data-numbers-unq">XX</span> ATMs
+        Showing <span className="data-numbers-unq">{branchCount}</span> Branches
+        and <span className="data-numbers-unq">{atmCount}</span> ATMs
       </p>
     </>
   );

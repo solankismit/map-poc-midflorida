@@ -10,6 +10,8 @@ function useQuery() {
 function useFetchData() {
   const query = useQuery();
   const [data, setData] = useState([]);
+  const [atmCount, setAtmCount] = useState(0);
+  const [branchCount, setBranchCount] = useState(0);
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [abortController, setAbortController] = useState(null);
 
@@ -24,7 +26,10 @@ function useFetchData() {
       })
       .then((fetchedData) => {
         const userLocation = JSON.parse(localStorage.getItem("userLocation"));
-        const { lat: userLat, lng: userLng } = userLocation || { lat: null, lng: null };
+        const { lat: userLat, lng: userLng } = userLocation || {
+          lat: null,
+          lng: null,
+        };
 
         // Determine the location to use for distance calculation
         let locationToUse = null;
@@ -54,6 +59,15 @@ function useFetchData() {
                 : null,
             }))
           : [];
+        setBranchCount(
+          updatedData.filter((item) =>
+            item?.locationTypeList?.includes("Branch")
+          ).length
+        );
+        setAtmCount(
+          updatedData.filter((item) => item?.locationTypeList?.includes("ATM"))
+            .length
+        );
 
         // Sort data by distance
         const sortedData = updatedData.sort(
@@ -105,7 +119,7 @@ function useFetchData() {
     }
   }, [queryStr, initialFetchDone]);
 
-  return data;
+  return { data, branchCount, atmCount };
 }
 
 export default useFetchData;
