@@ -20,12 +20,12 @@ export default function DataComponent() {
       return;
     }
     setSelectedItemId(id);
-    setOpenCardIndex(data.findIndex((item) => item.id === id));
+    setOpenCardIndex(data?.findIndex((item) => item.id === id));
   };
   useEffect(() => {
     if (selectedItemRef.current) {
-      setOpenCardIndex(data.findIndex((item) => item.id === selectedItemId));
-      selectedItemRef.current.scrollIntoView({
+      setOpenCardIndex(data?.findIndex((item) => item.id === selectedItemId));
+      selectedItemRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -42,7 +42,7 @@ export default function DataComponent() {
   return (
     <div className="data-component">
       <div className="data-items">
-        {data.map((item, idx) =>
+        {data?.map((item, idx) =>
           DataItem({
             idx,
             item,
@@ -86,16 +86,16 @@ const DataItem = ({
           <span>Read More</span> <Icon name="arrow-white" />
         </a>
       </div> */}
-      {JSON.parse(item.locationCardContent).locationAlert.alertMessage && (
+      {JSON.parse(item.locationCardContent)?.locationAlert?.alertMessage && (
         <div className="weather ">
           <span className="weather-text s-body">
             <Icon name="thunderstorm" />
-            {JSON.parse(item.locationCardContent).locationAlert.alertMessage}
+            {JSON.parse(item.locationCardContent)?.locationAlert?.alertMessage}
           </span>
-          {JSON.parse(item.locationCardContent).locationAlert.alertLink && (
+          {JSON.parse(item.locationCardContent)?.locationAlert?.alertLink && (
             <a
               href={
-                JSON.parse(item.locationCardContent).locationAlert.alertLink
+                JSON.parse(item.locationCardContent)?.locationAlert?.alertLink
               }
               className="weather-link m-body"
             >
@@ -106,79 +106,98 @@ const DataItem = ({
       )}
       <div className="branch-details">
         <div className="categories s-body">
-          <p>{item.locationTypeList.join(" | ")}</p>
+          <p>{item?.locationTypeList?.join(" | ")}</p>
           <div className="branch-img">
             <img src="midflorida-img.png" alt="" />
           </div>
         </div>
         <div className="branch-name ">
           <span>{idx + 1}</span>
-          <p className="branch-name--title l-body">{item.locationName}</p>
+          <p className="branch-name--title l-body">{item?.locationName}</p>
         </div>
 
         <p className="address m-body">
-          {item.address} {item.zipcode}
+          {item?.address} {item?.zipcode}
         </p>
       </div>
-      <div className="card">
-        <div className="dropdown s-body">
-          <span>{openCardIndex === idx ? "Hide" : "Branch Hours"}</span>
-          <Icon
-            name={`arrow-up`}
-            className={`icon ${openCardIndex === idx ? "opened" : ""}`}
-          />
-        </div>
-        {openCardIndex === idx && (
-          <div className="dropdown-content">
-            <div className="branch-hours">
-              <h3 className="s-label">Lobby</h3>
-              <ul className="s-body">
-                {JSON.parse(item.locationCardContent).lobbyHours.map((hour) => (
-                  <li
-                    key={hour.dayOfWeek}
-                  >{`${hour.dayOfWeek}: ${hour.hours}`}</li>
-                ))}
-              </ul>
+
+      {(JSON.parse(item.locationCardContent)?.lobbyHours?.length > 0 ||
+        JSON.parse(item.locationCardContent)?.drivethruHours?.length > 0 ||
+        item?.locationFeatureList?.length > 0) && (
+        <>
+          <div className="card">
+            <div className="dropdown s-body">
+              <span>{openCardIndex === idx ? "Hide" : "Branch Hours"}</span>
+              <Icon
+                name={`arrow-up`}
+                className={`icon ${openCardIndex === idx ? "opened" : ""}`}
+              />
             </div>
-            <div className="branch-hours">
-              <h3 className="s-label">Drive-Thru</h3>
-              <ul className="s-body">
-                {JSON.parse(item.locationCardContent).drivethruHours.map(
-                  (hour) => (
-                    <li
-                      key={hour.dayOfWeek}
-                    >{`${hour.dayOfWeek}: ${hour.hours}`}</li>
-                  )
-                )}
-              </ul>
-            </div>
-            <div className="features">
-              <h3 className="s-label">Features</h3>
-              <ul className="s-body">
-                {item.locationFeatureList.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-            </div>
+            {openCardIndex === idx && JSON.parse(item.locationCardContent) && (
+              <>
+                <div className="dropdown-content">
+                  {JSON.parse(item.locationCardContent)?.lobbyHours?.length >
+                    0 && (
+                    <div className="branch-hours">
+                      <h3 className="s-label">Lobby</h3>
+                      <ul className="s-body">
+                        {JSON.parse(item.locationCardContent)?.lobbyHours?.map(
+                          (hour) => (
+                            <li
+                              key={hour.dayOfWeek}
+                            >{`${hour.dayOfWeek}: ${hour.hours}`}</li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                  {JSON.parse(item.locationCardContent)?.drivethruHours
+                    ?.length > 0 && (
+                    <div className="branch-hours">
+                      <h3 className="s-label">Drive-Thru</h3>
+                      <ul className="s-body">
+                        {JSON.parse(
+                          item.locationCardContent
+                        )?.drivethruHours?.map((hour) => (
+                          <li
+                            key={hour.dayOfWeek}
+                          >{`${hour.dayOfWeek}: ${hour.hours}`}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {item?.locationFeatureList?.length > 0 && (
+                    <div className="features">
+                      <h3 className="s-label">Features</h3>
+                      <ul className="s-body">
+                        {item?.locationFeatureList?.map((feature) => (
+                          <li key={feature}>{feature}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
       <div className="place">
-        {item.distance && (
+        {item?.distance && (
           <span className="s-body place-distance">{item.distance} miles |</span>
         )}
         <a
-          href={`http://maps.google.com/maps?q=${item.latitude},${item.longitude}`}
+          href={`http://maps.google.com/maps?q=${item?.latitude},${item?.longitude}`}
           className="m-body place-direction"
         >
           <Icon name={"location"} />
           Get Directions
         </a>
-        <a href={item.url} className="m-body place-details">
+        <a href={item?.url} className="m-body place-details">
           <Icon name={"info"} />
           View Details
         </a>
-        {item.isAccessible && (
+        {item?.isAccessible && (
           <a className="m-body place-wheel-chair">
             <Icon name={"wheelchair"} />
           </a>

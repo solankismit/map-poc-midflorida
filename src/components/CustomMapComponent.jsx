@@ -24,7 +24,7 @@ function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
       details: {
         title: item.locationName, // Use 'locationName' for title
         address: item.address,
-        categories: item.locationTypeList, // Use 'locationTypeList' for categories
+        categories: item?.locationTypeList, // Use 'locationTypeList' for categories
       },
     }));
     setMarkers(newMarkers);
@@ -44,7 +44,7 @@ function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
         lng: marker.location.lng,
       });
       google.maps.event.addListenerOnce(mapRef.current, "idle", () => {
-        mapRef.current.setZoom(10); // Adjust zoom level as needed
+        mapRef.current.setZoom(13); // Adjust zoom level as needed
       });
       setSelectedMarkerDetails(marker.details); // Set the details of the selected marker
     }
@@ -182,7 +182,7 @@ function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
                       {selectedMarkerDetails.address}
                     </p>
                     <p style={{ margin: "0", fontSize: "14px", color: "#666" }}>
-                      {selectedMarkerDetails.categories.join(", ")}
+                      {selectedMarkerDetails?.categories?.join(", ")}
                     </p>
                   </div>
                 </OverlayView>
