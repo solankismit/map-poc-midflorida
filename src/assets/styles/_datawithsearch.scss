@@ -77,7 +77,10 @@
                 justify-content: center;
                 cursor: pointer;
                 font-weight: 700;
-                border-radius: 4px 4px 0 0;
+
+                &.active {
+                    border-radius: 4px 4px 0 0;
+                }
             }
 
             .search-buttons {
@@ -142,6 +145,22 @@
             .input-wrapper {
                 position: relative;
                 width: 100%;
+
+                .search-input {
+                    padding-left: 32px;
+                }
+            }
+
+            .search-icon {
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                /* Background color for the circle */
+                margin: 0;
+                height: 16px;
+                width: 16px;
+
             }
 
             .clear-button {
@@ -172,46 +191,6 @@
                 &:hover {
                     background-color: #005fa3;
                     /* Darker shade for hover state */
-                }
-            }
-
-            .apply-filters-btn {
-                background-color: #0077CB;
-                /* Primary color */
-                color: white;
-                /* Text color */
-                padding: 10px 20px;
-                /* Padding for the button */
-                border: none;
-                /* Remove default border */
-                border-radius: 4px;
-                /* Rounded corners */
-                cursor: pointer;
-                /* Pointer cursor on hover */
-                font-size: 16px;
-                /* Font size */
-                font-weight: bold;
-                /* Bold text */
-                text-align: center;
-                /* Center the text */
-                transition: background-color 0.3s ease;
-                /* Smooth transition for background color */
-
-                &:hover {
-                    background-color: #005fa3;
-                    /* Darker shade for hover state */
-                }
-
-                &:active {
-                    background-color: #004a82;
-                    /* Even darker shade for active state */
-                }
-
-                &:focus {
-                    outline: none;
-                    /* Remove default focus outline */
-                    box-shadow: 0 0 0 3px rgba(0, 119, 203, 0.5);
-                    /* Custom focus outline */
                 }
             }
 
