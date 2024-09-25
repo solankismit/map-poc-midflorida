@@ -4,7 +4,9 @@ import EventBus from "../../EventBus";
 import { useNavigate } from "react-router-dom";
 import { useData } from "../../DataContext";
 
-const categories = ["ATM", "Bank", "Credit Union"];
+const categories = JSON.parse(
+  document.getElementById("location-data").textContent
+).data.map((item) => ({ label: item.category, value: item.slug }));
 
 export default function SearchComponent() {
   const [filtersBar, setFiltersBar] = useState(false);
@@ -27,7 +29,7 @@ export default function SearchComponent() {
   const [inputValue, setInputValue] = useState("");
 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [distance, setDistance] = useState("50");
+  // const [distance, setDistance] = useState("50");
   const navigate = useNavigate();
   const [place, setPlace] = useState(null);
 
@@ -49,55 +51,85 @@ export default function SearchComponent() {
       EventBus.off("viewChanged");
     };
   }, []);
+
+  useEffect(() => {
+    handlePlaceSelected("category changed useEffect", place);
+  }, [selectedCategories]);
+  /**
+   * Handles the selection of a place from the autocomplete dropdown.
+   * Updates the input value, URL query parameters, and emits events.
+   *
+   * @param {string} from - The source function name of the place selection (e.g., "innerplace onPlacedChanged").
+   * @param {google.maps.places.PlaceResult} place - The selected place object.
+   */
   const handlePlaceSelected = (from, place) => {
     console.log("handleplaceSelected from ", from, " :: ", place);
     setInputValue(place?.description || place?.formatted_address || "");
-    // Insert it in URL Query
+    // Update URL query parameters based on the selected place
     const url = new URL(window.location.href);
     if (place && place.geometry && place.geometry.location) {
       const lat = place.geometry.location.lat();
       const lon = place.geometry.location.lng();
-      // url.searchParams.set("place", place.formatted_address);
+      // Set latitude, longitude, and place name in URL query
       url.searchParams.set("lat", lat);
       url.searchParams.set("lng", lon);
       url.searchParams.set(
         "place",
         place?.formatted_address || place?.name || place?.description || ""
       );
+      // Emit event to update the map with the selected place
       EventBus.emit("placeChanged", {
         lat: lat,
         lng: lon,
       });
     } else {
+      // Clear latitude, longitude, and place name from URL query
       url.searchParams.delete("lat");
       url.searchParams.delete("lng");
       url.searchParams.delete("place");
+      // Emit event to reset the map
       EventBus.emit("resetMap");
     }
 
+    // Update URL query parameters based on selected categories
     if (selectedCategories.length > 0) {
       url.searchParams.set("categories", selectedCategories.join(","));
     } else {
       url.searchParams.delete("categories");
     }
-    if (place && place.geometry && place.geometry.location && distance > 0) {
-      url.searchParams.set("distance", distance);
-    } else {
-      url.searchParams.delete("distance");
-    }
+
+    // // Update URL query parameters based on distance
+    // if (place && place.geometry && place.geometry.location && distance > 0) {
+    //   url.searchParams.set("distance", distance);
+    // } else {
+    //   url.searchParams.delete("distance");
+    // }
+
+    // Navigate to the updated URL
     navigate(url.pathname + url.search);
   };
 
+  /**
+   * Handles the loading of the autocomplete component.
+   * Stores the autocomplete instance in a ref for later use.
+   *
+   * @param {google.maps.places.Autocomplete} autocomplete - The autocomplete instance.
+   */
   function onLoad(autocomplete) {
     autocompleteInstance.current = autocomplete;
   }
 
+  /**
+   * Handles the place change event of the autocomplete component.
+   * Retrieves the selected place and updates the state accordingly.
+   */
   function onPlaceChanged() {
     console.log("onPlaceChanged :: ", autocompleteInstance.current);
 
     if (autocompleteInstance.current) {
       const innerplace = autocompleteInstance.current.getPlace();
 
+      // Check if a valid place is selected
       if (
         inputValue != "" &&
         innerplace &&
@@ -111,17 +143,27 @@ export default function SearchComponent() {
       }
     }
   }
+
+  /**
+   * Clears the input field and resets the selected place.
+   */
   const clearInput = () => {
     setInputValue("");
     handlePlaceSelected("clearInput", null);
   };
+
+  /**
+   * Handles input changes in the search field.
+   * Updates the input value and fetches predictions from Google Places.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+   */
   const handleInputChange = (e) => {
     console.log("handleInputChange :: ", e.target.value);
     console.log("SETTING NULL");
     setPlace(null);
-    // if (e.target.value === "") {
+    // Clear predictions if the input is empty
     setPredictions([]);
-    // }
     const value = e.target.value;
     setInputValue(value);
     // Fetch predictions based on user input
@@ -141,6 +183,10 @@ export default function SearchComponent() {
     }
   };
 
+  /**
+   * Handles the "Proceed" button click.
+   * If a place has not been selected, it fetches details for the first prediction.
+   */
   const handleProceed = () => {
     // Check if a place has been selected
     if (!place && predictions.length > 0) {
@@ -161,19 +207,33 @@ export default function SearchComponent() {
       );
     }
   };
+
+  /**
+   * Handles key down events in the search field.
+   * Triggers the "Proceed" action when the Enter key is pressed.
+   *
+   * @param {React.KeyboardEvent<HTMLInputElement>} e - The key down event.
+   */
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleProceed();
     }
   };
 
-  const handleCategoryChange = (category) => {
-    console.log("category", category);
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
+  /**
+   * Handles category selection changes.
+   * Updates the selected categories state.
+   *
+   * @param {string} category - The selected category.
+   */
+  const handleCategoryChange = (category, place) => {
+    // If the category is already selected, remove it from the array
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(selectedCategories.filter((c) => c !== category));
+    } else {
+      // Otherwise, add the category to the array
+      setSelectedCategories([category]);
+    }
   };
 
   const IconComponent = ({ icon, color = "#fff", size = "24" }) => {
@@ -276,52 +336,61 @@ export default function SearchComponent() {
           </div>
         </Autocomplete>
         <div className="search-buttons">
-          <div className="toggle-buttons">
+          <div className="search-buttons-inner">
+            <div className="toggle-buttons">
+              <button
+                className={`toggle-button ${view === "list" ? "active" : ""}`}
+                onClick={() => toggleView("list")}
+              >
+                <IconComponent
+                  icon={"list"}
+                  color={`${view == "list" ? "white" : "#042968"}`}
+                />
+              </button>
+              <button
+                className={`toggle-button ${view === "map" ? "active" : ""}`}
+                onClick={() => toggleView("map")}
+              >
+                <IconComponent
+                  icon={"map"}
+                  color={`${view == "map" ? "white" : "#042968"}`}
+                />
+              </button>
+            </div>
             <button
-              className={`toggle-button ${view === "list" ? "active" : ""}`}
-              onClick={() => toggleView("list")}
+              className="search-button l-body"
+              onClick={() => setFiltersBar(!filtersBar)}
             >
-              <IconComponent
-                icon={"list"}
-                color={`${view == "list" ? "white" : "#042968"}`}
-              />
-            </button>
-            <button
-              className={`toggle-button ${view === "map" ? "active" : ""}`}
-              onClick={() => toggleView("map")}
-            >
-              <IconComponent
-                icon={"map"}
-                color={`${view == "map" ? "white" : "#042968"}`}
-              />
+              <IconComponent icon={"filter"} />
+              Refine Results
             </button>
           </div>
-          <button
-            className="search-button l-body"
-            onClick={() => setFiltersBar(!filtersBar)}
-          >
-            <IconComponent icon={"filter"} />
-            Refine Results
-          </button>
-        </div>
-        {filtersBar && (
-          <div className="filters">
-            <div className="filters-select">
-              <div className="categories">
-                <h3 className="m-body">Categories</h3>
-                {categories.map((category) => (
-                  <div key={category}>
-                    <input
-                      type="checkbox"
-                      id={category}
-                      value={category}
-                      onChange={() => handleCategoryChange(category)}
-                    />
-                    <label htmlFor={category}>{category}</label>
+          {filtersBar && (
+            <div className="filters">
+              <div className="filters-select">
+                <div className="categories">
+                  <h3 className="m-body">Filter By</h3>
+                  <div className="categories-items">
+                    {categories.map((category) => (
+                      <div key={category?.value} className="category-item">
+                        <input
+                          type="checkbox"
+                          id={category?.value}
+                          name="category"
+                          value={category?.value}
+                          checked={selectedCategories.includes(category?.value)}
+                          onChange={() =>
+                            handleCategoryChange(category?.value, place)
+                          }
+                        />
+                        <label htmlFor={category?.value}>
+                          {category?.label}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="distance">
+                </div>
+                {/* <div className="distance">
                 <h3 className="m-body">Distance (miles)</h3>
                 <input
                   type="number"
@@ -329,16 +398,17 @@ export default function SearchComponent() {
                   onChange={(e) => setDistance(e.target.value)}
                   placeholder="Enter distance"
                 />
+              </div> */}
               </div>
-            </div>
-            <button
+              {/* <button
               className="apply-filters-btn"
-              onClick={() => handlePlaceSelected(place)}
+              onClick={() => handlePlaceSelected("apply btn", place)}
             >
               Apply Filters
-            </button>
-          </div>
-        )}
+            </button> */}
+            </div>
+          )}
+        </div>
       </div>
       <p className="m-body data-numbers">
         Showing <span className="data-numbers-unq">{branchCount}</span> Branches

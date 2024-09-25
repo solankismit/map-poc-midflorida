@@ -510,7 +510,7 @@ body {
 .branch-locator .filter-sidebar .data-with-search .search-component .search-input {
   background-color: white;
   width: 100%;
-  border: 1px solid #D4D5D6;
+  border: 1px solid rgb(212, 213, 214);
   border-radius: 4px;
   padding: 12px 8px;
   color: #042968;
@@ -520,17 +520,18 @@ body {
   justify-content: center;
   cursor: pointer;
   font-weight: 700;
+  border-radius: 4px 4px 0 0;
 }
-.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons {
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner {
   display: flex;
   justify-content: space-between;
   gap: 16px;
 }
-.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons {
   display: none;
 }
 @media screen and (max-width: 768px) {
-  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons {
     display: flex;
     justify-content: space-between;
     border: 1px solid #D4D5D6;
@@ -539,7 +540,7 @@ body {
     overflow: hidden;
     flex: none;
   }
-  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons .toggle-button {
     background: none;
     border: none;
     cursor: pointer;
@@ -549,18 +550,18 @@ body {
     justify-content: center;
     transition: background-color 0.3s ease;
   }
-  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:first-child {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons .toggle-button:first-child {
     border-right: 1px solid #D4D5D6;
   }
-  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button.active {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons .toggle-button.active {
     background-color: #008674;
   }
-  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button:hover {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons .toggle-button:hover {
     /* Hover background color */
     color: #042968;
     /* Hover icon color */
   }
-  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .toggle-buttons .toggle-button svg {
+  .branch-locator .filter-sidebar .data-with-search .search-component .search-buttons-inner .toggle-buttons .toggle-button svg {
     width: 24px;
     height: 24px;
   }
@@ -637,7 +638,9 @@ body {
 .branch-locator .filter-sidebar .data-with-search .search-component .filters {
   padding: 16px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 0px 0px 4px 4px;
+  border: 1px solid rgb(212, 213, 214);
+  border-top: unset;
   color: #404040;
   position: relative;
   overflow: hidden;
@@ -658,7 +661,7 @@ body {
 }
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories h3,
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .distance h3 {
-  margin-bottom: 8px;
+  text-transform: uppercase;
   font-weight: 700;
 }
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories input[type=checkbox],
@@ -668,8 +671,8 @@ body {
           appearance: none;
   width: 16px;
   height: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid #404040;
+  border-radius: 2px;
   margin-right: 8px;
   position: relative;
   cursor: pointer;
@@ -712,6 +715,15 @@ body {
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=number]:focus {
   border-color: #0077CB;
   outline: none;
+}
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+.branch-locator .filter-sidebar .data-with-search .search-component .filters .categories-items .category-item {
+  flex: 1;
+  text-wrap: nowrap;
 }
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories div {
   display: flex;
