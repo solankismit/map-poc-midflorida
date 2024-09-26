@@ -509,7 +509,7 @@ body {
 .branch-locator .filter-sidebar .data-with-search .search-component .search-input {
   background-color: white;
   width: 100%;
-  border: 1px solid rgb(212, 213, 214);
+  border: 1px solid #D4D5D6;
   border-radius: 4px;
   padding: 12px 8px;
   color: #042968;
@@ -566,6 +566,19 @@ body {
     width: 24px;
     height: 24px;
   }
+}
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .cta-links {
+  margin-top: 16px;
+}
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .cta-links .cta-link {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  color: #042968;
+  text-decoration: underline;
+}
+.branch-locator .filter-sidebar .data-with-search .search-component .search-buttons .cta-links .cta-link:first-child {
+  margin-bottom: 8px;
 }
 .branch-locator .filter-sidebar .data-with-search .search-component .input-wrapper {
   position: relative;
@@ -647,8 +660,8 @@ body {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border: 2px solid #404040;
   border-radius: 2px;
   margin-right: 8px;
@@ -664,10 +677,10 @@ body {
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .distance input[type=checkbox]:checked::after {
   content: "";
   position: absolute;
-  top: 1px;
-  left: 5px;
-  width: 4px;
-  height: 8px;
+  top: 0px;
+  left: 3px;
+  width: 3px;
+  height: 6px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
@@ -782,6 +795,11 @@ body {
   flex-direction: column;
   gap: 8px;
   padding: 0 16px;
+  padding-top: 12px;
+  z-index: 7;
+  background: #fff;
+  margin-top: 4px;
+  border-radius: 8px;
 }
 .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .categories {
   font-weight: 700;
@@ -823,6 +841,10 @@ body {
 }
 .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .branch-details .address {
   color: #404040;
+}
+.branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .weather + .branch-details {
+  padding-top: 0px;
+  margin-top: 0px;
 }
 .branch-locator .filter-sidebar .data-with-search .data-component .data-items .data-item .card {
   cursor: pointer;

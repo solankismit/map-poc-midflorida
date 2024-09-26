@@ -1,7 +1,43 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { calculateDistance } from "../utils";
+import axios from "axios";
 
+// Get the current hostname dynamically
+const currentHostname = window.location.hostname;
+let baseUrl = "";
+let searchendpoint = "";
+let itemid = "";
+
+// Define the base URL for local development
+const localhostBaseURL = "https://midweb-cm-00.midflorida.com";
+
+// Check if the current hostname is localhost
+if (currentHostname === "localhost") {
+  baseUrl = localhostBaseURL;
+} else {
+  baseUrl = `https://${currentHostname}`;
+}
+
+// Get the main div element
+const mainDiv = document.getElementById("branch-locator");
+
+// Read data attributes
+if (mainDiv) {
+  searchendpoint = mainDiv.dataset.apiendpoint;
+  itemid = mainDiv.dataset.itemid;
+}
+
+let payload = {
+  searchWithinItemID: itemid,
+  latitude: "",
+  longitude: "",
+  withinRadius: 10,
+  locationTypeList: [],
+  locationFeatureList: [],
+  pageNumber: 1,
+  pageSize: 10,
+};
 function useQuery() {
   const location = useLocation();
   return useMemo(() => new URLSearchParams(location.search), [location.search]);
@@ -16,73 +52,75 @@ function useFetchData() {
   const [abortController, setAbortController] = useState(null);
 
   // Helper function to fetch data
-  const fetchData = (url, controller) => {
-    return fetch(url, { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((fetchedData) => {
-        const userLocation = JSON.parse(localStorage.getItem("userLocation"));
-        const { lat: userLat, lng: userLng } = userLocation || {
-          lat: null,
-          lng: null,
+  const fetchData = async (url, controller) => {
+    console.log("base URL : ", baseUrl, searchendpoint, payload);
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    try {
+      let result;
+
+      if (window.location.hostname === "localhost") {
+        // Fetch from local file during testing on localhost
+        result = await axios.get("/data/data.json");
+      } else {
+        // Fetch from actual endpoint in production
+        console.log("payload", payload);
+        result = await axios.post(baseUrl + searchendpoint, payload, {
+          headers,
+        });
+      }
+
+      const userLocation = JSON.parse(localStorage.getItem("userLocation"));
+      const { lat: userLat, lng: userLng } = userLocation || {
+        lat: null,
+        lng: null,
+      };
+
+      // Determine the location to use for distance calculation
+      let locationToUse = null;
+      if (query.get("lat") && query.get("lng")) {
+        locationToUse = {
+          lat: parseFloat(query.get("lat")),
+          lng: parseFloat(query.get("lng")),
         };
+      } else if (userLat && userLng) {
+        locationToUse = {
+          lat: parseFloat(userLat),
+          lng: parseFloat(userLng),
+        };
+      }
 
-        // Determine the location to use for distance calculation
-        let locationToUse = null;
-        if (query.get("lat") && query.get("lng")) {
-          locationToUse = {
-            lat: parseFloat(query.get("lat")),
-            lng: parseFloat(query.get("lng")),
-          };
-        } else if (userLat && userLng) {
-          locationToUse = {
-            lat: parseFloat(userLat),
-            lng: parseFloat(userLng),
-          };
-        }
+      // Calculate distance and update data
+      const updatedData = result.data.Results
+        ? result.data.Results.map((item) => ({
+            ...item,
+            distance: locationToUse
+              ? calculateDistance(
+                  locationToUse.lat,
+                  locationToUse.lng,
+                  item.latitude,
+                  item.longitude
+                )
+              : null,
+          }))
+        : [];
 
-        // Calculate distance and update data
-        const updatedData = fetchedData
-          ? fetchedData.map((item) => ({
-              ...item,
-              distance: locationToUse
-                ? calculateDistance(
-                    locationToUse.lat,
-                    locationToUse.lng,
-                    item.latitude,
-                    item.longitude
-                  )
-                : null,
-            }))
-          : [];
-        setBranchCount(
-          updatedData.filter((item) =>
-            item?.locationTypeList?.includes("Branch")
-          ).length
-        );
-        setAtmCount(
-          updatedData.filter((item) => item?.locationTypeList?.includes("ATM"))
-            .length
-        );
+      setBranchCount(
+        updatedData.filter((item) => item?.locationTypeList?.includes("Branch"))
+          .length
+      );
+      setAtmCount(
+        updatedData.filter((item) => item?.locationTypeList?.includes("ATM"))
+          .length
+      );
 
-        // Sort data by distance
-        const sortedData = updatedData.sort(
-          (a, b) => (a.distance || Infinity) - (b.distance || Infinity)
-        );
-
-        setData(sortedData);
-      })
-      .catch((error) => {
-        if (error.name === "AbortError") {
-          console.log("Fetch aborted");
-        } else {
-          console.error("Error fetching data:", error);
-        }
-      });
+      setData(updatedData);
+      console.log("Fetched data", result.data);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
   };
 
   // Memoize the query string to avoid unnecessary recomputations

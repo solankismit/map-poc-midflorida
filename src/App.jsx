@@ -8,11 +8,11 @@ import { geocodeAddress } from "./service/geocoding";
 import DataComponent from "./components/DataWithSearch/DataComponent";
 import SearchComponent from "./components/DataWithSearch/SearchComponent";
 import EventBus from "./EventBus";
-
+const element = document.getElementById("branch-locator");
+const libraries = ["places"];
 function App() {
   const navigate = useNavigate();
-  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-  const libraries = ["places"];
+  const apiKey = element?.getAttribute("data-key");
   const [coordinates, setCoordinates] = useState({
     lat: 0,
     lng: 0,

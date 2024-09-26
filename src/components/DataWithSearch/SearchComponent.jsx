@@ -7,12 +7,30 @@ import { useData } from "../../DataContext";
 const categories = JSON.parse(
   document.getElementById("location-data").textContent
 ).data.map((item) => ({ label: item.category, value: item.slug }));
+const element = document.getElementById("branch-locator");
 
 export default function SearchComponent() {
   const [filtersBar, setFiltersBar] = useState(false);
   const [view, setView] = useState(""); // 'list' or 'map'
 
   const { branchCount, atmCount } = useData();
+
+  const attrData = {
+    findBranchLabel:
+      element?.getAttribute("data-findbranchlabel") || "Find Branch or ATM",
+    refineResult:
+      element?.getAttribute("data-refineresult") || "Refine Results",
+    filterBy: element?.getAttribute("data-filterby") || "Filter By",
+    cta1: element?.getAttribute("data-cta1") || "#",
+    cta2: element?.getAttribute("data-cta2") || "#",
+    cta1Text: element?.getAttribute("data-cta1text") || "Call to Action",
+    cta2Text: element?.getAttribute("data-cta2text") || "Call to Action",
+  };
+
+  if (!element) {
+    console.error("Element with id 'branch-locator' not found.");
+  }
+
   const toggleView = (selectedView) => {
     if (selectedView === view) {
       setView("");
@@ -29,7 +47,6 @@ export default function SearchComponent() {
   const [inputValue, setInputValue] = useState("");
 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [distance, setDistance] = useState("50");
   const navigate = useNavigate();
   const [place, setPlace] = useState(null);
 
@@ -279,9 +296,9 @@ export default function SearchComponent() {
             <path
               d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z"
               stroke={color}
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokelinejoinlinejoin="round"
             />
           </svg>
         );
@@ -298,9 +315,9 @@ export default function SearchComponent() {
             <path
               d="M9 20L3 17V4L9 7M9 20L15 17M9 20V7M15 17L21 20V7L15 4M15 17V4M9 7L15 4"
               stroke={color}
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         );
@@ -321,6 +338,38 @@ export default function SearchComponent() {
           </svg>
         );
 
+      case "link":
+        return (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="Icon/UI">
+              <mask
+                id="mask0_5541_32182"
+                masktype="alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="16"
+                height="16"
+              >
+                <rect id="Bounding box" width="16" height="16" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_5541_32182)">
+                <path
+                  id="open_in_new"
+                  d="M3.33333 14C2.96667 14 2.65278 13.8694 2.39167 13.6083C2.13056 13.3472 2 13.0333 2 12.6667V3.33333C2 2.96667 2.13056 2.65278 2.39167 2.39167C2.65278 2.13056 2.96667 2 3.33333 2H8V3.33333H3.33333V12.6667H12.6667V8H14V12.6667C14 13.0333 13.8694 13.3472 13.6083 13.6083C13.3472 13.8694 13.0333 14 12.6667 14H3.33333ZM6.46667 10.4667L5.53333 9.53333L11.7333 3.33333H9.33333V2H14V6.66667H12.6667V4.26667L6.46667 10.4667Z"
+                  fill="#042968"
+                />
+              </g>
+            </g>
+          </svg>
+        );
+
       default:
         break;
     }
@@ -329,7 +378,7 @@ export default function SearchComponent() {
   return (
     <>
       <div className="search-component">
-        <h6>Find a Branch or ATM</h6>{" "}
+        <h6>{attrData.findBranchLabel}</h6>
         <Autocomplete
           onLoad={onLoad}
           onPlaceChanged={onPlaceChanged}
@@ -382,14 +431,14 @@ export default function SearchComponent() {
               onClick={() => setFiltersBar(!filtersBar)}
             >
               <IconComponent icon={"filter"} />
-              Refine Results
+              {attrData?.refineResult}
             </button>
           </div>
           {filtersBar && (
             <div className="filters">
               <div className="filters-select">
                 <div className="categories">
-                  <h3 className="m-body">Filter By</h3>
+                  <h3 className="m-body">{attrData?.filterBy}</h3>
                   <div className="categories-items">
                     {categories.map((category) => (
                       <div key={category?.value} className="category-item">
@@ -403,7 +452,7 @@ export default function SearchComponent() {
                             handleCategoryChange(category?.value, place)
                           }
                         />
-                        <label htmlFor={category?.value}>
+                        <label htmlFor={category?.value} className="s-body">
                           {category?.label}
                         </label>
                       </div>
@@ -428,6 +477,16 @@ export default function SearchComponent() {
             </button> */}
             </div>
           )}
+          <div className="cta-links">
+            <a href={attrData?.cta1} className="cta-link m-body">
+              <span className="cta-link-text ">{attrData?.cta1Text}</span>
+              <IconComponent icon={"link"} />
+            </a>
+            <a href={attrData?.cta2} className="cta-link m-body">
+              <span className="cta-link-text">{attrData?.cta2Text}</span>
+              <IconComponent icon={"link"} />
+            </a>
+          </div>
         </div>
       </div>
       <p className="m-body data-numbers">

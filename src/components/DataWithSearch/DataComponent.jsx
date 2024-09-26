@@ -60,7 +60,13 @@ export default function DataComponent() {
   );
 }
 const Icon = ({ name, className }) => {
-  return <img src={`/${name}.png`} className={className} alt={name} />;
+  return (
+    <img
+      src={`public/assets/images/Icon/location/${name}.png`}
+      className={className}
+      alt={name}
+    />
+  );
 };
 const DataItem = ({
   idx,
