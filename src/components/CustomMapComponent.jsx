@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GoogleMap, Marker, OverlayView } from "@react-google-maps/api";
+import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
 import EventBus from "../EventBus";
 import { useData } from "../DataContext";
 
@@ -25,6 +25,7 @@ function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
         title: item.locationName, // Use 'locationName' for title
         address: item.address,
         categories: item?.locationTypeList, // Use 'locationTypeList' for categories
+        url: item?.url,
       },
     }));
     setMarkers(newMarkers);
@@ -341,59 +342,73 @@ function CustomMapComponent({ initialCenter, onMapLoad, mapContainerStyle }) {
       >
         {markers.map((position, index) => (
           <React.Fragment key={position.id}>
-            <Marker
+            <MarkerF
               key={position.id}
               icon={defaultIcon} // Use the same icon for both selected and unselected markers
               position={position.location}
               onClick={() => handleMarkerClick(position.id)}
-            />
+            >
+              {position.id === selectedMarkerId && selectedMarkerDetails ? (
+                <InfoWindowF position={position.location}>
+                  <div
+                    style={{
+                      background: "white",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      maxWidth: "200px",
+                      height: "auto",
+                      width: "fit-content",
+                      fontFamily: "'Roboto', sans-serif",
+                    }}
+                  >
+                    <h4
+                      style={{
+                        margin: "0 0 5px",
+                        fontSize: "16px",
+                        color: "#333",
+                      }}
+                    >
+                      {selectedMarkerDetails.title}
+                    </h4>
+                    <p
+                      style={{
+                        margin: "0 0 5px",
+                        fontSize: "14px",
+                        color: "#666",
+                        textWrap: "nowrap",
+                      }}
+                    >
+                      {selectedMarkerDetails.address}
+                    </p>
+                    <p style={{ margin: "0", fontSize: "14px", color: "#666" }}>
+                      {selectedMarkerDetails?.categories?.join(", ")}
+                    </p>
 
-            {position.id === selectedMarkerId && selectedMarkerDetails && (
-              <OverlayView
-                position={position.location}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                getPixelPositionOffset={(width, height) => ({
-                  x: -(width / 2),
-                  y: -height,
-                })}
-              >
-                <div
-                  style={{
-                    background: "white",
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    maxWidth: "200px",
-                    width: "fit-content",
-                    fontFamily: "'Roboto', sans-serif",
-                  }}
-                >
-                  <h4
-                    style={{
-                      margin: "0 0 5px",
-                      fontSize: "16px",
-                      color: "#333",
-                    }}
-                  >
-                    {selectedMarkerDetails.title}
-                  </h4>
-                  <p
-                    style={{
-                      margin: "0 0 5px",
-                      fontSize: "14px",
-                      color: "#666",
-                      textWrap: "nowrap",
-                    }}
-                  >
-                    {selectedMarkerDetails.address}
-                  </p>
-                  <p style={{ margin: "0", fontSize: "14px", color: "#666" }}>
-                    {selectedMarkerDetails?.categories?.join(", ")}
-                  </p>
-                </div>
-              </OverlayView>
-            )}
+                    <a
+                      href={selectedMarkerDetails?.url}
+                      style={{
+                        backgroundColor: "#4CAF50", // Green background
+                        color: "white", // White text
+                        border: "none", // No border
+                        borderRadius: "5px", // Rounded corners
+                        padding: "10px 15px", // Padding
+                        cursor: "pointer", // Pointer cursor on hover
+                        fontSize: "14px", // Font size
+                        marginTop: "10px", // Margin on top
+                        textAlign: "center", // Center text
+                        display: "inline-block", // Make it behave like a button
+                      }}
+                      onClick={() => {
+                        // Add your anchor click logic here
+                        console.log("Anchor clicked!");
+                      }}
+                    >
+                      View Details
+                    </a>
+                  </div>
+                </InfoWindowF>
+              ) : null}
+            </MarkerF>
           </React.Fragment>
         ))}
       </GoogleMap>
