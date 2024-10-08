@@ -627,6 +627,7 @@ body {
   /* Darker shade for hover state */
 }
 .branch-locator .filter-sidebar .data-with-search .search-component .filters {
+  display: none;
   padding: 16px;
   background-color: white;
   border-radius: 0px 0px 4px 4px;
@@ -635,9 +636,11 @@ body {
   color: #404040;
   position: relative;
   overflow: hidden;
-  display: flex;
   flex-direction: column;
   gap: 16px;
+}
+.branch-locator .filter-sidebar .data-with-search .search-component .filters.active {
+  display: flex;
 }
 .branch-locator .filter-sidebar .data-with-search .search-component .filters-select {
   display: flex;
@@ -719,6 +722,56 @@ body {
 .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories div {
   display: flex;
   align-items: center;
+}
+@media screen and (max-width: 768px) {
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters {
+    padding: 0;
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #ECF6FE;
+    z-index: 100;
+    transition: right 0.3s ease-in-out;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories {
+    padding: 10px;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories .m-body {
+    text-transform: none;
+    margin-bottom: 10px;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories div {
+    align-items: start;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories-items {
+    flex-direction: column;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .categories .category-item {
+    margin-bottom: 4px;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters.active {
+    right: 0;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .close-icon {
+    position: relative;
+    padding: 1px 12px;
+    display: block;
+    cursor: pointer;
+    font-size: 34px;
+  }
+  .branch-locator .filter-sidebar .data-with-search .search-component .filters .apply-button {
+    margin: 10px;
+    padding: 12px 16px;
+    background-color: #005fa3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    /* Push to the bottom */
+  }
 }
 .branch-locator .filter-sidebar .data-with-search .data-numbers {
   font-weight: 700;

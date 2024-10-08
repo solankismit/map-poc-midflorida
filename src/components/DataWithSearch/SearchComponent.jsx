@@ -12,7 +12,7 @@ const element = document.getElementById("branch-locator");
 export default function SearchComponent() {
   const [filtersBar, setFiltersBar] = useState(false);
   const [view, setView] = useState(""); // 'list' or 'map'
-
+  const [isMobileView, setIsMobileView] = useState();
   const { branchCount, atmCount } = useData();
 
   const attrData = {
@@ -55,6 +55,9 @@ export default function SearchComponent() {
     EventBus.on("viewChanged", (view) => {
       setView(view);
     });
+    EventBus.on("isMobileView", (view) => {
+      setIsMobileView(view);
+    });
     const urlParams = new URLSearchParams(window.location.search);
     const placeQuery = urlParams.get("place");
     if (placeQuery) {
@@ -65,12 +68,17 @@ export default function SearchComponent() {
     }
 
     return () => {
+      EventBus.off("isMobileView", (view) => {
+        setIsMobileView(view);
+      });
       EventBus.off("viewChanged");
     };
   }, []);
 
   useEffect(() => {
-    handlePlaceSelected("category changed useEffect", place);
+    !isMobileView
+      ? handlePlaceSelected("category changed useEffect", place)
+      : "";
   }, [selectedCategories]);
   /**
    * Handles the selection of a place from the autocomplete dropdown.
@@ -434,8 +442,18 @@ export default function SearchComponent() {
               {attrData?.refineResult}
             </button>
           </div>
-          {filtersBar && (
-            <div className="filters">
+          {
+            <div className={`filters ${filtersBar ? "active" : ""}`}>
+              {isMobileView ? (
+                <div
+                  className="close-icon"
+                  onClick={() => setFiltersBar(false)}
+                >
+                  &times;
+                </div>
+              ) : (
+                <></>
+              )}
               <div className="filters-select">
                 <div className="categories">
                   <h3 className="m-body">{attrData?.filterBy}</h3>
@@ -469,14 +487,18 @@ export default function SearchComponent() {
                 />
               </div> */}
               </div>
-              {/* <button
-              className="apply-filters-btn"
-              onClick={() => handlePlaceSelected("apply btn", place)}
-            >
-              Apply Filters
-            </button> */}
+              {isMobileView ? (
+                <button
+                  className="apply-button"
+                  onClick={() => handlePlaceSelected("apply btn", place)}
+                >
+                  Apply
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
-          )}
+          }
           <div className="cta-links">
             <a href={attrData?.cta1} className="cta-link m-body">
               <span className="cta-link-text ">{attrData?.cta1Text}</span>
